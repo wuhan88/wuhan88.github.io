@@ -1,0 +1,26 @@
+Sitemap
+=======
+
+.. toctree::
+   :maxdepth: 4
+
+   2013/06/02/search_for_an_item_in_a_lua_list
+   2013/01/19/begin_tinkerer
+   2012/12/04/use_nginx_uwsgi_deploy_django
+   2012/12/04/the_unp_reading_notes_io_model
+   2012/12/03/args_and_kwargs_in_python
+   2012/10/13/centos_install_cx_oracle
+   2012/10/13/introduce_to_python_lambda
+   2012/09/11/detailed_lvs_difference_between_the_three_models
+   2012/09/11/vmware_several_modules_must_be_compiled_and_loaded_into_the_running_kernel
+   2012/09/08/adjust_nic_irq_for_lvs
+   2012/09/08/python_colored_output
+   2012/05/18/the-solutions-to-libtool-Version-mismatch-error
+   2011/10/29/introduce-to-vmware-p2v
+   2011/10/29/dns-security-preventive-measures
+   2011/10/29/learn-matsushita-find-job
+   2011/10/31/some-thoughts-about-web-security-technology-salon
+   2011/05/29/The-blog-from-wordpress-migrate-django
+   2011/05/29/YAHOO-WEB-OPTIME-14-rules
+   pages/about
+

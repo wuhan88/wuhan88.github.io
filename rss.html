@@ -1,0 +1,1158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Jason Wu's Thoughts and Writings</title>
+        <link>http://jasonwu.me/</link>
+        <description>关注DevOps、Web安全、Web开发、python、nginx</description>
+        <language>en-us</language>
+        <pubDate>Sun, 02 Jun 2013 00:00:00 +0800</pubDate>
+        
+        <item>
+            <link>http://jasonwu.me/2013/06/02/search_for_an_item_in_a_lua_list.html</link>
+            <guid>http://jasonwu.me/2013/06/02/search_for_an_item_in_a_lua_list.html</guid>
+            <title><![CDATA[如何判断一个值在lua的table里]]></title>
+            <description><![CDATA[<div class="section" id="luatable">
+<h1>如何判断一个值在lua的table里</h1>
+<p>最近在用lua写一个nginx模块时，遇到一个需要判断一个值是否在一个table里的问题，我有一个类似如下的一个table:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">local</span> <span class="n">items</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;pear&quot;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>我怎样去判断orange是否在这个table里，在python里我可以使用如下的方法：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="s">&quot;orange&quot;</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+    <span class="c"># do something</span>
+</pre></div>
+</div>
+<p>在lua里如何实现类似的方法呢？</p>
+<p><a class="reference external" href="http://www.lua.org/pil/11.5.html">Programming in Lua</a> 中提供了一种方法：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">function</span> <span class="n">Set</span> <span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+  <span class="n">local</span> <span class="nb">set</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ipairs</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span> <span class="n">do</span> <span class="nb">set</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">true</span> <span class="n">end</span>
+  <span class="k">return</span> <span class="nb">set</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+<p>你可以使用一个类似set的结构，具体使用的方法如下：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">local</span> <span class="n">items</span> <span class="o">=</span> <span class="n">Set</span> <span class="p">{</span> <span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;pear&quot;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span> <span class="p">}</span>
+
+<span class="k">if</span> <span class="n">items</span><span class="p">[</span><span class="s">&quot;orange&quot;</span><span class="p">]</span> <span class="n">then</span>
+  <span class="o">--</span> <span class="n">do</span> <span class="n">something</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+<p>上面的这个方法和下面的这个方法等同：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">local</span> <span class="n">items</span> <span class="o">=</span> <span class="p">{</span> <span class="n">apple</span><span class="o">=</span><span class="n">true</span><span class="p">,</span> <span class="n">orange</span><span class="o">=</span><span class="n">true</span><span class="p">,</span> <span class="n">pear</span><span class="o">=</span><span class="n">true</span><span class="p">,</span> <span class="n">banana</span><span class="o">=</span><span class="n">true</span> <span class="p">}</span>
+<span class="k">if</span> <span class="n">items</span><span class="o">.</span><span class="n">apple</span> <span class="n">then</span>
+    <span class="o">--</span> <span class="n">do</span> <span class="n">something</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+<p>这个方法足够简单吧，并且效率上要比遍历这个table要高。</p>
+<p>– eof –</p>
+</div>]]></description>
+            <category><![CDATA[ lua ]]></category>
+             <pubDate>Sun, 02 Jun 2013 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2013/01/19/begin_tinkerer.html</link>
+            <guid>http://jasonwu.me/2013/01/19/begin_tinkerer.html</guid>
+            <title><![CDATA[博客迁移到tinkerer]]></title>
+            <description><![CDATA[<div class="section" id="tinkerer">
+<h1>博客迁移到tinkerer</h1>
+<p>在11年时，将我的博客从wordpress+mysql换成了django+sqlite，具体可见 <a class="reference external" href="http://jasonwu.me/2011/05/29/The-blog-from-wordpress-migrate-django.html">将博客从wordpress迁移到django</a> 这篇文章， 在折腾精神的感召下，在12年底我将博客程序又换掉了，这次换成了一个基于 <a class="reference external" href="http://sphinx.pocoo.org/">sphinx</a> 静态博客生成器 <a class="reference external" href="http://tinkerer.me/pages/documentation.html">tinkerer</a> ， <tt class="docutils literal"><span class="pre">tinkerer</span></tt> 使用 <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>  作为标记语言，可以生成文章的分类，tag，支持评论和代码高亮，文章评论使用 <tt class="docutils literal"><span class="pre">disqus</span></tt> , 高亮代码使用 <tt class="docutils literal"><span class="pre">Pygments</span></tt> 。</p>
+<p>说说为什么使用 <tt class="docutils literal"><span class="pre">tinkerer</span></tt> ，从打算把博客弄成静态站点开始我尝试了很多项目，如 <tt class="docutils literal"><span class="pre">octpress</span></tt> 、 <tt class="docutils literal"><span class="pre">jekyll</span></tt> 、 <tt class="docutils literal"><span class="pre">pelican</span></tt> ，一次偶然的机会在 <tt class="docutils literal"><span class="pre">bitbucket</span></tt> 上发现了 <tt class="docutils literal"><span class="pre">tinkerer</span></tt> ，试用后感觉比较顺手，并且可以使用sphinx的扩展，我比较熟悉 <tt class="docutils literal"><span class="pre">sphinx</span></tt> 和 <tt class="docutils literal"><span class="pre">reStructuredText</span></tt> 的使用，平时就用这两个东西写文档，因此选择了基于 <tt class="docutils literal"><span class="pre">sphinx</span></tt> 的 <tt class="docutils literal"><span class="pre">tinkerer</span></tt> 。我最开始使用的是0.4 beta版还存在一些bug，然后我自己做了一些修改pull给作者，作者很快就接受了我的pull request，并表示感谢，现在1.0版本已经发布，基本上没有比较明显的bug了，只是有一些细节可能不是那么完美，还有一个就是主题很少，目前默认的几款主题，都不是很美观，目前我在移植一款主题。</p>
+<p>tinkerer的一些使用经验:</p>
+<p>＊ 自定义博客的侧边栏</p>
+<p>这里以创建友情链接的plugin作为例子，复制boilerplate主题目录下recent.html为一个新的文件，如friendslinks.html，然后改成如下这样就可以了:</p>
+<div class="highlight-html"><div class="highlight"><pre>{#-
+    boilerplate/friendslinks.html
+    ~~~~~~~~~~~~~~~~~~~~~
+
+    Sidebar list of all tags.
+
+    :copyright: Copyright 2012 by Iñigo Serna
+    :license: FreeBSD, see LICENSE file
+-#}
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;widget&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Friends links<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.qdyongai.cn/?from=jason&quot;</span><span class="nt">&gt;</span>龙哥-网站设计<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.zipeng.info/?from=jason&quot;</span><span class="nt">&gt;</span>子鹏-kun的记事本<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.aaronw.me/?from=jason&quot;</span><span class="nt">&gt;</span>王炜-我的技术生活<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://cuikai-wh.com/?from=jason&quot;</span><span class="nt">&gt;</span>小轰-时光立方<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p><strong>这里要注意的是默认的modern5主题是继承于boilerplate这个主题，因此只要修改boilerplate这个主题就可以了</strong></p>
+<p>然后在conf.py中加入这个文件的配置</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Add templates to be rendered in sidebar here</span>
+<span class="n">html_sidebars</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&quot;**&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;searchbox.html&quot;</span><span class="p">,</span> <span class="s">&quot;categories.html&quot;</span><span class="p">,</span> <span class="s">&quot;recent.html&quot;</span><span class="p">,</span> <span class="s">&quot;friendslinks.html&quot;</span><span class="p">,</span> <span class="s">&quot;weibo.html&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>创建一个makefile，使用过 <tt class="docutils literal"><span class="pre">sphinx</span></tt> 的人应该都知道 <tt class="docutils literal"><span class="pre">sphinx</span></tt> 会生成一个 makefile，这样可以直接使用make html就可以生成文档了，tinker没有提供，那么我们可以自己写一个，让我么操作的更加自动化，如下是我 <tt class="docutils literal"><span class="pre">Makefile</span></tt> 示例，大家可以参照下：</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>all: build commit update
+
+clean:
+             rm -rf blog/html/
+
+build:
+             tinker -b
+
+serve:
+             <span class="nb">cd </span>blog/html/ <span class="o">&amp;&amp;</span> python -m SimpleHTTPServer
+
+commit:
+             hg commit ./ -m <span class="s1">'add new post'</span><span class="o">&amp;&amp;</span>hg push
+                     @echo <span class="s2">&quot;Done...&quot;</span>
+
+update:
+             ssh root@jasonwu.me <span class="s1">'cd /home/admin/jasonwu.me/&amp;&amp;hg pull&amp;&amp;hg update'</span>
+</pre></div>
+</div>
+<p>这个makefile主要实现了生成文档，在本地起一个http服务器来查看生成的文章效果，提交到bitbucket和更新vps上的博客内容等功能，将这些操作完全的自动化，是不是很方便，大家玩的开心。</p>
+</div>]]></description>
+            <category><![CDATA[ blog ]]></category>
+             <pubDate>Sat, 19 Jan 2013 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2012/12/04/use_nginx_uwsgi_deploy_django.html</link>
+            <guid>http://jasonwu.me/2012/12/04/use_nginx_uwsgi_deploy_django.html</guid>
+            <title><![CDATA[使用NGINX+UWSGI来部署Django]]></title>
+            <description><![CDATA[<div class="section" id="nginx-uwsgidjango">
+<h1>使用NGINX+UWSGI来部署Django</h1>
+<p>关于UWSGI的介绍不多说了，想了解的可以自己去搜，uwsgi性能还蛮不错，我们之前使用的fastcgi方式来跑django，前端用F5做负载均衡，用户数增加后服务器的load很高，但换uwsgi服务器的load下降不少，废话不多说，进入正题。
+编译安装nginx，用的nginx-0.8.54，目前最新的stable版本</p>
+<div class="highlight-bash"><div class="highlight"><pre>wget http://nginx.org/download/nginx-0.8.54.tar.gz
+tar zxvf  nginx-0.8.54.tar.gz
+./configure --user<span class="o">=</span>nobody
+  --group<span class="o">=</span>nobody
+  --prefix<span class="o">=</span>/usr/local/nginx
+  --with-http_ssl_module
+  --http-log-path<span class="o">=</span>/var/log/nginx/access.log
+  --with-http_gzip_static_module
+make&amp;&amp;make install
+</pre></div>
+</div>
+<p>下面来安装uwsgi</p>
+<div class="highlight-bash"><div class="highlight"><pre>wget http://projects.unbit.it/downloads/uwsgi-0.9.6.5.tar.gz
+tar zvxf uwsgi-0.9.6.5.tar.gz
+<span class="nb">cd </span>uwsgi-0.9.6.5
+make -f Makefile.Py26
+cp uwsgi /usr/sbin/uwsgi    <span class="c">#将uwsgi放到PATH下</span>
+</pre></div>
+</div>
+<p>下面来说说怎么配置：
+新建一个uwsgi.xml的文件放到django的目录下</p>
+<div class="highlight-xml"><div class="highlight"><pre>#cat uwsgi.xml
+<span class="nt">&lt;uwsgi&gt;</span>
+
+<span class="nt">&lt;socket&gt;</span>0.0.0.0:8000<span class="nt">&lt;/socket&gt;</span>
+
+<span class="nt">&lt;listen&gt;</span>204800<span class="nt">&lt;/listen&gt;</span>
+
+<span class="c">&lt;!-- 开启32个线程 --&gt;</span>
+<span class="nt">&lt;processes&gt;</span>32<span class="nt">&lt;/processes&gt;</span>
+
+<span class="nt">&lt;max-requests&gt;</span>2048000<span class="nt">&lt;/max-requests&gt;</span>
+
+<span class="nt">&lt;buffer-size&gt;</span>8192<span class="nt">&lt;/buffer-size&gt;</span>
+
+<span class="c">&lt;!-- 你的配置文件 --&gt;</span>
+<span class="nt">&lt;module&gt;</span>django_wsgi<span class="nt">&lt;/module&gt;</span>
+
+<span class="nt">&lt;profiler&gt;</span>true<span class="nt">&lt;/profiler&gt;</span>
+
+<span class="nt">&lt;enable-threads&gt;</span>true<span class="nt">&lt;/enable-threads&gt;</span>
+
+<span class="c">&lt;!-- 限制内存空间256M --&gt;</span>
+<span class="nt">&lt;limit-as&gt;</span>256<span class="nt">&lt;/limit-as&gt;</span>
+
+<span class="c">&lt;!-- 使用async模式来运行，这里要注意一下，如果你的app的是no-async-friendly 那就不要用这个模式 --&gt;</span>
+<span class="nt">&lt;async&gt;</span>10<span class="nt">&lt;/async&gt;</span>
+
+<span class="nt">&lt;disable-logging/&gt;</span>
+
+<span class="nt">&lt;daemonize&gt;</span>/home/app01/uwsgi.log<span class="nt">&lt;/daemonize&gt;</span>
+
+<span class="nt">&lt;/uwsgi&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#cat django_wsgi.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">django.core.handlers.wsgi</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'DJANGO_SETTINGS_MODULE'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'your settings'</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">wsgi</span><span class="o">.</span><span class="n">WSGIHandler</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>下面是nginx的配置：</p>
+<div class="highlight-bash"><div class="highlight"><pre>server <span class="o">{</span>
+        listen   80;
+        server_name jasonwu.me;
+        access_log /var/log/jasownu.me/access_log;
+        location / <span class="o">{</span>
+            root   /home/app01/;
+            uwsgi_pass 127.0.0.1:8000;
+            include        uwsgi_params;
+      <span class="o">}</span>
+  <span class="o">}</span>
+</pre></div>
+</div>
+<p>启动服务：</p>
+<div class="highlight-bash"><div class="highlight"><pre>/usr/bin/uwsgi -x /home/app01/uwsgi.xml
+/usr/local/nginx/sbin/nginx
+</pre></div>
+</div>
+<p>这样部署完成了</p>
+<p>下面来说说遇到的一个问题，不知道大家有没有遇到，
+在我们启动uwsgi后在uwsgi的日志中会出现如下的信息:</p>
+<div class="highlight-python"><pre>– unavailable modifier requested: 1 –
+– unavailable modifier requested: 1 –</pre>
+</div>
+<p>表现的现象就是启动一段时间没法访问app，在查看uwsgi的源代码中我们找到打印这部份日志的段落，正常情况下应该返回的-1，目前还在查找这个出现这个错误的原因。</p>
+<p><strong>参考文档:</strong></p>
+<ul class="simple">
+<li>uwsgi的 <a class="reference external" href="http://projects.unbit.it/uwsgi/wiki/TitleIndex">官方wiki</a></li>
+<li><a class="reference external" href="http://www.nightmare.com/medusa/programming.html">Programming in Python with Medusa and the Async Sockets Library</a></li>
+</ul>
+</div>]]></description>
+            <category><![CDATA[ nginx ]]></category>
+             <pubDate>Tue, 04 Dec 2012 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2012/12/04/the_unp_reading_notes_io_model.html</link>
+            <guid>http://jasonwu.me/2012/12/04/the_unp_reading_notes_io_model.html</guid>
+            <title><![CDATA[unp读书笔记（第六章I/O模型）]]></title>
+            <description><![CDATA[<div class="section" id="unp-i-o">
+<h1>unp读书笔记（第六章I/O模型）</h1>
+<p>在看了unp后才发现自己之前的认识一直都是错误的，把阻塞I/O，非阻塞I/O，同步和异步混为一谈，之前一直觉得异步就是非阻塞io，同步就是阻塞io，主要搞清楚了，五种I/O模型的实现，以及epoll并不是aio，这两个并不是一个东西。</p>
+<p>实际上unix有五种I/O模型：</p>
+<ul class="simple">
+<li>阻塞I/O</li>
+<li>非阻塞I/O</li>
+<li>I/O复用(select和poll)</li>
+<li>信号驱动I/O（SIGIO)</li>
+<li>异步I/O</li>
+</ul>
+<p>一个输入操作一般有两个不同的阶段：
+1. 等待数据准备好
+2. 从内核到进程拷贝数据
+对于一个套接口上的输入操作，第一步一般是等待数据到达网络，当分组到达时，它被拷贝到内核中的某个缓冲区，第二步是将数据从内核缓冲区拷贝到应用缓冲区。</p>
+<div class="section" id="i-o">
+<h2>1.阻塞I/O模型</h2>
+<p>最流行的I/O模型是阻塞I/O模型，缺省时，所有套接口都是阻塞的。</p>
+<img alt="http://farm6.staticflickr.com/5195/7407797190_a48b6dcf80_z.jpg" src="http://farm6.staticflickr.com/5195/7407797190_a48b6dcf80_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id1">
+<h2>2. 非阻塞I/O模型</h2>
+<p>前三次调用recvfrom时仍无数据返回，因此内核立即返回一个EWOULDBLOCK错误。第四次调用recvfrom时，数据已经准备好，被拷贝到应用缓冲区，recvfrom返回成功指示，接着就是我们处理数据。当一个应用进程像这样对一个非阻塞描述字循环调用recvfrom时，我们称此过程为轮询(polling)。应用进程连续不断地查询内核，看看某操作是否准备好，这对cpu时间是极大的浪费，但这种模型只是偶尔才遇到，一般是在只专门提供某种功能的系统中才有。</p>
+<img alt="http://farm6.staticflickr.com/5332/7407811366_60f22d6337_z.jpg" src="http://farm6.staticflickr.com/5332/7407811366_60f22d6337_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id2">
+<h2>3. I/O复用模型</h2>
+<p>有了I/O复用，我们就可以调用select或poll，在这两个系统调用中的某一个上阻塞，而不是阻塞于真正的I/O系统调用。如图6.3，我们阻塞于select调用，等待数据报套接口可读。当select返回套接口可读条件时，我们调用recvfrom将数据报拷贝到应用缓冲区中。使用select的好处在于我们可以等待多个描述字准备好。</p>
+<img alt="http://farm6.staticflickr.com/5447/7407852344_49d1a95c98_z.jpg" src="http://farm6.staticflickr.com/5447/7407852344_49d1a95c98_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id3">
+<h2>4. 信号驱动I/O模型</h2>
+<p>我们也可以用信号，让内核在描述字准备好时，用信号SIGIO通知我们，我们将此方法称为信号驱动I/O，如图6.4
+首先我们允许套接口进行信号驱动IO，并通过系统调用sigaction安装一个信号处理程序。此系统调用立即返回，进程继续工作，它是非阻塞的。当数据报准备好被读时，就为该进程生成一个SIGIO信号。我们随即可以在信号处理程序中调用recvfrom来读数据报，并通知主循环数据已准备好被处理。也可以通知主循环，让它来读数据报。无论我们如何处理SIGIO信号，这种模型的好处是当等待数据报到达时，可以不阻塞。主循环可以继续执行，只是等待信号处理程序的通知,或者数据已准备好处理，或者数据报已准备好被读。</p>
+<img alt="http://farm8.staticflickr.com/7258/7407859790_b922c7fedf_z.jpg" src="http://farm8.staticflickr.com/7258/7407859790_b922c7fedf_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id4">
+<h2>5. 异步I/O模型</h2>
+<p>异步IO是POSIX实时扩展，我们让内核启动操作，并在整个操作完成后(包括将数据从内核拷贝到我们自己的缓冲区)通知我们。这种模型没有广泛使用。这种模型与前一节介绍的信号驱动模型的主要区别在于：信号驱动I/O是由内核通知我们何时可以启动一个I/O操作，而异步I/O模型是由内核通知我们I/O操作何时完成。我们调用函数aio_read(POSIX异步I/O函数以aio_或者lio_开头)，给内核传递描述字，缓冲区指针，缓冲区大小(与read相同的三个参数)，文件偏移(与lseek类似)，并告诉内核当前整个操作完成是如何通知我们。此系统调用立即返回，我们的进程不阻塞于等待I/O操作的完成。在此例子中，我们假设要求内核在操作完成时生成一个信号，此信号直到数据已拷贝到应用缓冲区才生成，这一点是与信号驱动I/O模型不同的。</p>
+<img alt="http://farm8.staticflickr.com/7106/7407898142_64f4033a11_z.jpg" src="http://farm8.staticflickr.com/7106/7407898142_64f4033a11_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id5">
+<h2>6. 五种不同I/O模型的比较</h2>
+<img alt="http://farm8.staticflickr.com/7121/7407921310_b58dfa8cb5_z.jpg" src="http://farm8.staticflickr.com/7121/7407921310_b58dfa8cb5_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="i-oi-o">
+<h2>7. 同步I/O与异步I/O</h2>
+<p>POSIX定义这两个术语如下：
+同步I/O操作引起请求进程阻塞，直到I/O操作完成。
+异步I/O操作不引起请求进程阻塞。
+根据上述定义，我们的前四个模型–阻塞I/O模型，非阻塞I/O模型，I/O复用模型和信号驱动I/O模型都是同步I/O模型，因为真正的I/O操作(recvfrom)阻塞进程，只有异步I/O模型与异步I/O的定义相匹配。</p>
+</div>
+</div>]]></description>
+            <category><![CDATA[ linux ]]></category>
+             <pubDate>Tue, 04 Dec 2012 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2012/12/03/args_and_kwargs_in_python.html</link>
+            <guid>http://jasonwu.me/2012/12/03/args_and_kwargs_in_python.html</guid>
+            <title><![CDATA[Python : 什么是*args和**kwargs？]]></title>
+            <description><![CDATA[<div class="section" id="python-args-kwargs">
+<h1>Python : 什么是*args和**kwargs？</h1>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">'args = '</span><span class="p">,</span> <span class="n">args</span>
+    <span class="k">print</span> <span class="s">'kwargs = '</span><span class="p">,</span> <span class="n">kwargs</span>
+    <span class="k">print</span> <span class="s">'---------------------------------------'</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">foo</span><span class="p">(</span><span class="s">'a'</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">'2'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>输出结果如下：</p>
+<div class="highlight-python"><pre>| args = (1, 2, 3, 4)
+| kwargs = {}
+| ---------------------------------------
+| args = ()
+| kwargs = {'a': 1, 'c': 3, 'b': 2}
+| ---------------------------------------
+| args = (1, 2, 3, 4)
+| kwargs = {'a': 1, 'c': 3, 'b': 2}
+| ---------------------------------------
+| args = ('a', 1, None)
+| kwargs = {'a': 1, 'c': 3, 'b': '2'}
+| ---------------------------------------</pre>
+</div>
+<p>可以看到，这两个是python中的可变参数。 <tt class="docutils literal"><span class="pre">*args</span></tt> 表示任何多个无名参数，它是一个tuple； <tt class="docutils literal"><span class="pre">**kwargs</span></tt> 表示关键字参数，它是一个dict。并且同时使用 <tt class="docutils literal"><span class="pre">*args</span></tt> 和 <tt class="docutils literal"><span class="pre">**kwargs</span></tt> 时，必须 <tt class="docutils literal"><span class="pre">*args</span></tt> 参数列要在 <tt class="docutils literal"><span class="pre">**kwargs</span></tt> 前，像foo(a=1, b=‘2’, c=3, a’, 1, None, )这样调用的话，会提示语法错误“SyntaxError: non-keyword arg after keyword arg”。</p>
+<p>呵呵，知道 <tt class="docutils literal"><span class="pre">*args</span></tt> 和 <tt class="docutils literal"><span class="pre">**kwargs</span></tt> 是什么了吧。还有一个很漂亮的用法，就是创建字典：</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">kw_dict</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">kwargs</span>
+    <span class="k">print</span> <span class="n">kw_dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="s">'a'</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s">'b'</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s">'c'</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>其实python中就带有dict类，使用dict(a=1,b=2,c=3)即可创建一个字典了。</p>
+<p>另:连接两个字典的方法:</p>
+<p>第一种:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="p">{</span><span class="s">'a'</span><span class="p">:</span><span class="s">'a'</span><span class="p">,</span><span class="s">'b'</span><span class="p">:</span><span class="s">'b'</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="s">'c'</span><span class="p">,</span><span class="o">**</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span>
+<span class="go">{'a': 'a', 'c': 'c', 'b': 'b'}</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>第二种:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="p">{</span><span class="s">'a'</span><span class="p">:</span><span class="s">'a'</span><span class="p">,</span><span class="s">'b'</span><span class="p">:</span><span class="s">'b'</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">=</span><span class="p">{</span><span class="s">'c'</span><span class="p">:</span><span class="s">'c'</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span>
+<span class="go">{'a': 'a', 'c': 'c', 'b': 'b'}</span>
+</pre></div>
+</div>
+</div>]]></description>
+            <category><![CDATA[ python ]]></category>
+             <pubDate>Mon, 03 Dec 2012 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2012/10/13/centos_install_cx_oracle.html</link>
+            <guid>http://jasonwu.me/2012/10/13/centos_install_cx_oracle.html</guid>
+            <title><![CDATA[CENT OS安装cx_Oracle遇到的问题及解决方法]]></title>
+            <description><![CDATA[<div class="section" id="cent-oscx-oracle">
+<h1>CENT OS安装cx_Oracle遇到的问题及解决方法</h1>
+<p>这个是 <tt class="docutils literal"><span class="pre">cx_Oracle</span></tt> 的说明链接http://cx-oracle.sourceforge.net/README.txt，我是采用源码安装
+安装过程：</p>
+<div class="highlight-bash"><div class="highlight"><pre>wget  http://prdownloads.sourceforge.net/cx-oracle/cx_Oracle-5.0.3.tar.gz?download
+tar zxvf   cx_Oracle-5.0.3.tar.gz
+<span class="nb">cd </span>cx_Oracle-5.0.3
+python setup.py build
+python setup.py install
+</pre></div>
+</div>
+<p>下面是检查它是否可以用</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cx_Oracle</span>
+<span class="go">接着出现了两个错误，错误信息如下：</span>
+<span class="go">/usr/local/lib/python2.6/site-packages/cx_Oracle-5.0.3-py2.6-linux-x86_64.egg/cx_Oracle.py:3:</span>
+<span class="go">UserWarning: Module cx_Oracle was already imported from /usr/local/lib/python2.6/site-packages</span>
+<span class="go">/cx_Oracle-5.0.3-py2.6-linux-x86_64.egg/cx_Oracle.pyc,</span>
+<span class="go">but /usr/local/cx_Oracle-5.0.3 is being added to sys.path</span>
+<span class="go">ImportError: libclntsh.so.10.1: cannot open shared object file: No such file or directory</span>
+</pre></div>
+</div>
+<p>下面来说说这两个错误的解决方法，
+第一个问题，提示说/usr/local/cx_Oracle-5.0.3已经加入到python的 <tt class="docutils literal"><span class="pre">sys.path</span></tt> 里面了
+那么我们就在 <tt class="docutils literal"><span class="pre">sys.path</span></tt> 中去掉这个路径：
+具体方法</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">path</span>
+<span class="go">['', '/usr/local/lib/python2.6/site-packages/setuptools-0.6c11-py2.6.egg',</span>
+<span class="go">'/usr/local/lib/python2.6/site-packages/fudge-0.9.4-py2.6.egg',</span>
+<span class="go"> '/usr/local/lib/python2.6/site-packages/python_memcached-1.45-py2.6.egg',</span>
+<span class="go"> '/usr/local/lib/python2.6/site-packages/MySQL_python-1.2.3c1-py2.6-linux-x86_64.egg',</span>
+<span class="go">'/usr/local/lib/python2.6/site-packages/flup-1.0.3.dev_20100525-py2.6.egg',</span>
+<span class="go">'/usr/local/lib/python2.6/site-packages/regex-0.1.20100706.1-py2.6-linux-x86_64.egg',</span>
+<span class="go"> '/usr/local/lib/python2.6/site-packages/cx_Oracle-5.0.3-py2.6-linux-x86_64.egg',</span>
+<span class="go"> '/usr/local/lib/python26.zip', '/usr/local/lib/python2.6', '/usr/local/lib/python2.6/plat-linux2',</span>
+<span class="go"> '/usr/local/lib/python2.6/lib-tk', '/usr/local/lib/python2.6/lib-old',</span>
+<span class="go">'/usr/local/lib/python2.6/lib-dynload', '/usr/local/lib/python2.6/site-packages',</span>
+<span class="go"> '/usr/local/lib/python2.6/site-packages/PIL', '/usr/local/cx_Oracle-5.0.3']</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">r'/usr/local/cx_Oracle-5.0.3'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>第一个问题解决，接着第二个问题，这个网上有解决方案，下面说说解决方法：
+这个的原因是 <tt class="docutils literal"><span class="pre">Oracle</span></tt> 的路径没有设定</p>
+<div class="highlight-bash"><div class="highlight"><pre>locate libclntsh.so.10.1
+/opt/oracle/product/10.2/db_1/lib/libclntsh.so.10.1
+/opt/oracle/product/10.2/db_1/lib32/libclntsh.so.10.1
+<span class="nb">echo</span> /opt/oracle/product/10.2/db_1/lib/ &gt;&gt; /etc/ld.so.conf
+ldconfig
+</pre></div>
+</div>
+<p>就这样第二个问题解决
+再试一下：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cx_Oracle</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>]]></description>
+            <category><![CDATA[ python ]]></category>
+             <pubDate>Sat, 13 Oct 2012 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2012/10/13/introduce_to_python_lambda.html</link>
+            <guid>http://jasonwu.me/2012/10/13/introduce_to_python_lambda.html</guid>
+            <title><![CDATA[python的lambda函数介绍]]></title>
+            <description><![CDATA[<div class="section" id="pythonlambda">
+<h1>python的lambda函数介绍</h1>
+<p>今天在论坛上看到有人问的一个关于如何从一个python的字典中取到value中最大的那个key值，里面用到了 <tt class="docutils literal"><span class="pre">lambda</span></tt> 函数，今天那就大致介绍下 <tt class="docutils literal"><span class="pre">lambda</span></tt> 是个什么东东。
+python支持创建一种匿名的函数（一种没绑定名字的函数），这种函数叫做lambda，这个和fp(函数编程)里面的lambda的含义并不是完全一致，下面这段代码将展示 <tt class="docutils literal"><span class="pre">lambda</span></tt> 和普通函数之间的区别</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span> <span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">f</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">64</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">g</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">64</span>
+</pre></div>
+</div>
+<p>g()是一个 lambda 函数，完成同上面普通函数相同的事情。注意这里的简短的语法：在参数列表周围没有括号，而且忽略了 return 关键字 (隐含存在，因为整个函数只有一行)。而且，该函数没有函数名称，但是可以将它赋值给一个变量进行调用。
+使用 lambda 函数时甚至不需要将它赋值给一个变量。这可能不是世上最有用的东西，它只是展示了 lambda 函数只是一个内联函数。</p>
+<p>总的来说，lambda 函数可以接收任意多个参数 (包括可选参数) 并且返回单个表达式的值。lambda 函数不能包含命令，包含的表达式不能超过一个。不要试图向 lambda 函数中塞入太多的东西；如果你需要更复杂的东西，应该定义一个普通函数，然后想让它多长就多长。
+这里只是大致介绍一下，想深入研究的可以看文章后面附的文档，这里回到开头的问题，如果返回一个字典中最大的value值的key，下面为代码：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">'a'</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s">'b'</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s">'c'</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">max</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">(),</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span><span class="nb">dict</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+<span class="go">'c'</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>下面来大致解释这段代码，先定义了一个列表，通过使用key参数改变了max比较列表元素的方法，最终达到了取得value值最大的key的目的。</p>
+<p>接下来讲一下，python字典的 <tt class="docutils literal"><span class="pre">iterkeys</span></tt> <tt class="docutils literal"><span class="pre">iteritems</span></tt> <tt class="docutils literal"><span class="pre">itervalues</span></tt> 这三个方法，字典对象也提供keys，items，values这三个方法，那前面的三种方法和后面的三种方法有什么不一样呢，我们大致运行一下就可以知道了，前面的三个方法返回迭代器对象，而后三种方法返回的为列表对象，使用前三种方法更高效一些，后三种方法对内存占用比较大，在python 3.0中取消了iterkeys，iteritems，itervalues这三个方法，将keys，items，values这三个方法功能改为原来iter*的功能。</p>
+<p><strong>参考文档:</strong></p>
+<ul class="simple">
+<li>Python: <a class="reference external" href="http://www.secnetix.de/olli/Python/lambda_functions.hawk">Lambda Functions</a></li>
+<li>Python: <a class="reference external" href="http://docs.python.org/library/functions.html">Built-in Functions</a></li>
+</ul>
+</div>]]></description>
+            <category><![CDATA[ python ]]></category>
+             <pubDate>Sat, 13 Oct 2012 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html</link>
+            <guid>http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html</guid>
+            <title><![CDATA[LVS的三种模式区别详解]]></title>
+            <description><![CDATA[<div class="section" id="lvs">
+<h1><a class="toc-backref" href="#id13">LVS的三种模式区别详解</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">内容索引 Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#lvs" id="id13">LVS的三种模式区别详解</a><ul>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#dr-direct-routing" id="id14">DR模式：(Direct Routing)直接路由模式</a><ul>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#dr" id="id15">DR模式的网络拓扑：</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id1" id="id16">DR模式的工作过程：</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id2" id="id17">DR模式的几个细节：</a><ul>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#lvsreal-server" id="id18">LVS和Real-server必须在相同的网段</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id3" id="id19">LVS不需要开启路由转发：</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#arp" id="id20">ARP问题：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#ip-tunneling" id="id21">IP Tunneling模式：</a><ul>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id4" id="id22">IP Tunneling的拓扑图</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id5" id="id23">IP Tunneling的工作过程</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id6" id="id24">IP Tunneling的几个细节问题</a><ul>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#ip" id="id25">IP封包的过程：(如图)</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id7" id="id26">LVS和Real-server不需要在一个网段：</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#real-server" id="id27">Real-server的系统设置：</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id8" id="id28">ARP问题：</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id9" id="id29">内核的包转发：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#nat" id="id30">NAT模式：</a><ul>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id10" id="id31">NAT模式的拓扑图</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id11" id="id32">NAT模式的工作过程:</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#id12" id="id33">NAT模式的几个细节问题</a><ul>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#natbugs" id="id34">NAT模式的Bugs</a></li>
+<li><a class="reference internal" href="http://jasonwu.me/2012/09/11/detailed_lvs_difference_between_the_three_models.html#icmp" id="id35">ICMP重定向问题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="dr-direct-routing">
+<h2><a class="toc-backref" href="#id14">DR模式：(Direct Routing)直接路由模式</a></h2>
+<div class="section" id="dr">
+<h3><a class="toc-backref" href="#id15">DR模式的网络拓扑：</a></h3>
+<img alt="http://farm7.static.flickr.com/6236/6322179853_5899c2dfb6_z.jpg" src="http://farm7.static.flickr.com/6236/6322179853_5899c2dfb6_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id1">
+<h3><a class="toc-backref" href="#id16">DR模式的工作过程：</a></h3>
+<p>当一个client发送一个WEB请求到VIP，LVS服务器根据VIP选择对应的real-server的Pool，根据算法，在Pool中选择一台Real-server，LVS在hash表中记录该次连接，然后将client的请求包发给选择的Real-server，最后选择的Real-server把应答包直接传给client；当client继续发包过来时，LVS根据更才记录的hash表的信息，将属于此次连接的请求直接发到刚才选择的Real-server上；当连接中止或者超时，hash表中的记录将被删除。</p>
+</div>
+<div class="section" id="id2">
+<h3><a class="toc-backref" href="#id17">DR模式的几个细节：</a></h3>
+<div class="section" id="lvsreal-server">
+<h4><a class="toc-backref" href="#id18">LVS和Real-server必须在相同的网段</a></h4>
+<p>DR模式在转发client的包时，只修改了包目的MAC地址为选定的Real-server的mac地址，所以如果LVS和Real-server在不通的广播域内，那么Real-server就没办法接收到转发的包。下面是mac地址的修改过程：</p>
+<img alt="http://farm7.static.flickr.com/6100/6322179927_eb8e928a02_z.jpg" src="http://farm7.static.flickr.com/6100/6322179927_eb8e928a02_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id3">
+<h4><a class="toc-backref" href="#id19">LVS不需要开启路由转发：</a></h4>
+<p>LVS的DR模式不需要开启路由转发功能，就可以正常的工作，出于安全考虑，如果不需要转发功能，最好关闭。</p>
+</div>
+<div class="section" id="arp">
+<h4><a class="toc-backref" href="#id20">ARP问题：</a></h4>
+<p>通常，DR模式需要在Real-server上配置VIP，配置的方式为：</p>
+<div class="highlight-bash"><div class="highlight"><pre>/sbin/ifconfig lo:0 inet VIP netmask 255.255.255.255
+</pre></div>
+</div>
+<p>原因在于，当LVS把client的包转发给Real-server时，因为包的目的IP地址是VIP，那么如果Real-server收到这个包后，发现包的目的IP不是自己的系统IP，那么就会认为这个包不是发给自己的，就会丢弃这个包，所以需要将这个IP地址绑到网卡上；当发送应答包给client时，Real-server就会把包的源和目的地址调换，直接回复给client。</p>
+<p><strong>关于ARP广播：</strong></p>
+<ul class="simple">
+<li>上面绑定VIP的掩码是”255.255.255.255″，说明广播地址是其本身，那么他就不会将ARP发送到实际的自己该属于的广播域了，这样防止与LVS上VIP冲突，而导致IP冲突。</li>
+<li>另外在Linux的Real-server上，需要设置ARP的sysctl选项:（下面是举例说明设置项的）</li>
+</ul>
+<p>假设服务器上ip地址如下所示:</p>
+<div class="highlight-python"><pre>System Interface MAC Address IP Address
+HN eth0 00:0c:29:b3:a2:54 192.168.18.10
+HN eth3 00:0c:29:b3:a2:68 192.168.18.11
+HN eth4 00:0c:29:b3:a2:5e 192.168.18.12
+client eth0 00:0c:29:d2:c7:aa 192.168.18.129</pre>
+</div>
+<p>当我从192.168.18.129 ping 192.168.18.10时，tcpdump抓包发现:</p>
+<div class="highlight-python"><pre>00:0c:29:d2:c7:aa &gt; ff:ff:ff:ff:ff:ff, ARP, length 60: arp who-has 192.168.18.10 tell 192.168.18.129
+00:0c:29:b3:a2:5e &gt; 00:0c:29:d2:c7:aa, ARP, length 60: arp reply 192.168.18.10 is-at 00:0c:29:b3:a2:5e
+00:0c:29:b3:a2:54 &gt; 00:0c:29:d2:c7:aa, ARP, length 60: arp reply 192.168.18.10 is-at 00:0c:29:b3:a2:54
+00:0c:29:b3:a2:68 &gt; 00:0c:29:d2:c7:aa, ARP, length 60: arp reply 192.168.18.10 is-at 00:0c:29:b3:a2:68
+00:0c:29:d2:c7:aa &gt; 00:0c:29:b3:a2:5e, IPv4, length 98: 192.168.18.129 &gt; 192.168.18.10: ICMP echo request, id 32313, seq 1, length 64
+00:0c:29:b3:a2:54 &gt; 00:0c:29:d2:c7:aa, IPv4, length 98: 192.168.18.10 &gt; 192.168.18.129: ICMP echo reply, id 32313, seq 1, length 64
+00:0c:29:d2:c7:aa &gt; 00:0c:29:b3:a2:5e, IPv4, length 98: 192.168.18.129 &gt; 192.168.18.10: ICMP echo request, id 32313, seq 2, length 64
+00:0c:29:b3:a2:54 &gt; 00:0c:29:d2:c7:aa, IPv4, length 98: 192.168.18.10 &gt; 192.168.18.129: ICMP echo reply, id 32313, seq 2, length 64
+00:0c:29:b3:a2:54 &gt; 00:0c:29:d2:c7:aa, ARP, length 60: arp who-has 192.168.18.129 tell 192.168.18.10
+00:0c:29:d2:c7:aa &gt; 00:0c:29:b3:a2:54, ARP, length 60: arp reply 192.168.18.129 is-at 00:0c:29:d2:c7:aa</pre>
+</div>
+<p>三个端口都发送了arp的reply包，但是192.168.18.129使用的第一个回应的eth4的mac地址作为ping请求的端口，由于192.168.18.10是icmp包中的目的地址，那么ping的应答包，会从eth0端口发出。</p>
+<p>如果Real-server有个多个网卡，每个网卡在不同的网段，那么可以过滤掉非本网卡ARP请求的回应；但是如果多个网卡的ip在一个网段，那么就不行了。</p>
+<div class="highlight-bash"><div class="highlight"><pre>sysctl -w net.ipv4.conf.all.arp_filter<span class="o">=</span>1
+</pre></div>
+</div>
+<p>对于多个接口在相同网段可以设置下面的来防止：</p>
+<div class="highlight-bash"><div class="highlight"><pre>sysctl -w net.ipv4.conf.all.arp_ignore<span class="o">=</span>1
+sysctl -w net.ipv4.conf.all.arp_announce<span class="o">=</span>2
+</pre></div>
+</div>
+<p>还是从192.168.18.129 ping 192.168.18.10时，tcpdump抓包发现:</p>
+<div class="highlight-python"><pre>00:0c:29:d2:c7:aa &gt; ff:ff:ff:ff:ff:ff, ARP, length 60: arp who-has 192.168.18.10 tell 192.168.18.129
+00:0c:29:b3:a2:54 &gt; 00:0c:29:d2:c7:aa, ARP, length 60: arp reply 192.168.18.10 is-at 00:0c:29:b3:a2:54
+00:0c:29:d2:c7:aa &gt; 00:0c:29:b3:a2:54, IPv4, length 98: 192.168.18.129 &gt; 192.168.18.10: ICMP echo request, id 32066, seq 1, length 64
+00:0c:29:b3:a2:54 &gt; 00:0c:29:d2:c7:aa, IPv4, length 98: 192.168.18.10 &gt; 192.168.18.129: ICMP echo reply, id 32066, seq 1, length 64
+00:0c:29:d2:c7:aa &gt; 00:0c:29:b3:a2:54, IPv4, length 98: 192.168.18.129 &gt; 192.168.18.10: ICMP echo request, id 32066, seq 2, length 64
+00:0c:29:b3:a2:54 &gt; 00:0c:29:d2:c7:aa, IPv4, length 98: 192.168.18.10 &gt; 192.168.18.129: ICMP echo reply, id 32066, seq 2, length 64
+00:0c:29:b3:a2:54 &gt; 00:0c:29:d2:c7:aa, ARP, length 60: arp who-has 192.168.18.129 tell 192.168.18.10
+00:0c:29:d2:c7:aa &gt; 00:0c:29:b3:a2:54, ARP, length 60: arp reply 192.168.18.129 is-at 00:0c:29:d2:c7:aa</pre>
+</div>
+<p>看到了么，现在只有eth0会回应arp请求了。</p>
+<p><strong>arp报文格式：</strong></p>
+<img alt="http://farm7.static.flickr.com/6219/6324726842_6f0aea5dab_z.jpg" src="http://farm7.static.flickr.com/6219/6324726842_6f0aea5dab_z.jpg"/>
+<p>请求报文：MAC地址字段是空的。
+应答报文：所有字段都又内容。:</p>
+<div class="highlight-python"><pre>The arp_announce/arp_ignore reference：
+
+arp_announce – INTEGER
+Define different restriction levels for announcing the local
+source IP address from IP packets in ARP requests sent on
+interface:
+0 – (default) Use any local address, configured on any interface
+1 – Try to avoid local addresses that are not in the target’s
+subnet for this interface. This mode is useful when target
+hosts reachable via this interface require the source IP
+address in ARP requests to be part of their logical network
+configured on the receiving interface. When we generate the
+request we will check all our subnets that include the
+target IP and will preserve the source address if it is from
+such subnet. If there is no such subnet we select source
+address according to the rules for level 2.
+2 – Always use the best local address for this target.
+In this mode we ignore the source address in the IP packet
+and try to select local address that we prefer for talks with
+the target host. Such local address is selected by looking
+for primary IP addresses on all our subnets on the outgoing
+interface that include the target IP address. If no suitable
+local address is found we select the first local address
+we have on the outgoing interface or on all other interfaces,
+with the hope we will receive reply for our request and
+even sometimes no matter the source IP address we announce.
+
+The max value from conf/{all,interface}/arp_announce is used.
+
+Increasing the restriction level gives more chance for
+receiving answer from the resolved target while decreasing
+the level announces more valid sender’s information.</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">arp_announce</span></tt> 用来限制，是否使用发送的端口的ip地址来设置ARP的源地址：</p>
+<ul class="simple">
+<li>“0″代表是用ip包的源地址来设置ARP请求的源地址。</li>
+<li>“1″代表不使用ip包的源地址来设置ARP请求的源地址，如果ip包的源地址是和该端口的IP地址相同的子网，那么用ip包的源地址，来设置ARP请求的源地址，否则使用”2″的设置。</li>
+<li>“2″代表不使用ip包的源地址来设置ARP请求的源地址，而由系统来选择最好的接口来发送。</li>
+</ul>
+<p>当内网的机器要发送一个到外部的ip包，那么它就会请求路由器的Mac地址，发送一个arp请求，这个arp请求里面包括了自己的ip地址和Mac地址，而linux默认是使用ip的源ip地址作为arp里面的源ip地址，而不是使用发送设备上面的 ，这样在lvs这样的架构下，所有发送包都是同一个VIP地址，那么arp请求就会包括VIP地址和设备 Mac，而路由器收到这个arp请求就会更新自己的arp缓存，这样就会造成ip欺骗了，VIP被抢夺，所以就会有问题。</p>
+<p>现在假设一个场景来解释 <tt class="docutils literal"><span class="pre">arp_announce</span></tt> ：</p>
+<div class="highlight-rst"><div class="highlight"><pre>Real-server的ip地址：202.106.1.100(public local address)，
+172.16.1.100(private local address)，
+202.106.1.254(VIP)
+</pre></div>
+</div>
+<p>如果发送到client的ip包产生的arp请求的源地址是202.106.1.254(VIP),那么LVS上的VIP就会被冲掉，因为交换机上现在的arp对应关系是Real-server上的VIP对应自己的一个MAC，那么LVS上的VIP就失效了。:</p>
+<div class="highlight-python"><pre>arp_ignore – INTEGER
+Define different modes for sending replies in response to
+received ARP requests that resolve local target IP addresses:
+0 – (default): reply for any local target IP address, configured
+on any interface
+1 – reply only if the target IP address is local address
+configured on the incoming interface
+2 – reply only if the target IP address is local address
+configured on the incoming interface and both with the
+sender’s IP address are part from same subnet on this interface
+3 – do not reply for local addresses configured with scope host,
+only resolutions for global and link addresses are replied
+4-7 – reserved
+8 – do not reply for all local addresses
+
+The max value from conf/{all,interface}/arp_ignore is used
+when ARP request is received on the {interface}</pre>
+</div>
+<p>“0″,代表对于arp请求，任何配置在本地的目的ip地址都会回应，不管该arp请求的目的地址是不是接口的ip；如果有多个网卡，并且网卡的ip都是一个子网，那么从一个端口进来的arp请求，别的端口也会发送回应。
+“1″,代表如果arp请求的目的地址，不是该arp请求包进入的接口的ip地址，那么不回应。
+“2″,要求的更苛刻，除了”1″的条件外，还必须要求arp发送者的ip地址和arp请求进入的接口的ip地址是一个网段的。
+(后面略)</p>
+</div>
+</div>
+</div>
+<div class="section" id="ip-tunneling">
+<h2><a class="toc-backref" href="#id21">IP Tunneling模式：</a></h2>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id22">IP Tunneling的拓扑图</a></h3>
+<img alt="http://farm7.static.flickr.com/6094/6323980713_082c909dd5_b.jpg" src="http://farm7.static.flickr.com/6094/6323980713_082c909dd5_b.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id23">IP Tunneling的工作过程</a></h3>
+<p>1&gt; client 发送request包到LVS服务器的VIP上。</p>
+<p>2&gt; VIP按照算法选择后端的一个Real-server，并将记录一条消息到hash表中，然后将client的request包封装到一个新的IP包里，新IP包的目的IP是Real-server的IP，然后转发给Real-server。</p>
+<p>3&gt; Real-server收到包后，解封装，取出client的request包，发现他的目的地址是VIP，而Real-server发现在自己的lo:0口上有这个IP地址，于是处理client的请求，然后将relpy这个request包直接发给client。</p>
+<p>4&gt; 该client的后面的request包，LVS直接按照hash表中的记录直接转发给Real-server，当传输完毕或者连接超时，那么将删除hash表中的记录。</p>
+</div>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id24">IP Tunneling的几个细节问题</a></h3>
+<div class="section" id="ip">
+<h4><a class="toc-backref" href="#id25">IP封包的过程：(如图)</a></h4>
+<img alt="http://farm7.static.flickr.com/6237/6324734370_e543f436fb_z.jpg" src="http://farm7.static.flickr.com/6237/6324734370_e543f436fb_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id7">
+<h4><a class="toc-backref" href="#id26">LVS和Real-server不需要在一个网段：</a></h4>
+<p>由于通过IP Tunneling 封装后，封装后的IP包的目的地址为Real-server的IP地址，那么只要Real-server的地址能路由可达，Real-server在什么网络里都可以，这样可以减少对于公网IP地址的消耗，但是因为要处理IP Tunneling封装和解封装的开销，那么效率不如DR模式。</p>
+</div>
+<div class="section" id="real-server">
+<h4><a class="toc-backref" href="#id27">Real-server的系统设置：</a></h4>
+<p>由于需要Real-server支持IP Tunneling，所以设置与DR模式不太一样，LVS不需要设置tunl设备，LVS本身可以进行封装
+i) 需要配置VIP在tunl设备上：(VIP：172.16.1.254)</p>
+<div class="highlight-bash"><div class="highlight"><pre>shell&gt; ifconfig tunl0 172.16.1.254 netmask 255.255.255.255
+shell&gt; ifconfig tunl0
+tunl0 Link encap:IPIP Tunnel HWaddr
+inet addr:172.16.1.254 Mask:255.255.255.255
+UP RUNNING NOARP MTU:1480 Metric:1
+RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:0
+RX bytes:0 <span class="o">(</span>0.0 b<span class="o">)</span> TX bytes:0 <span class="o">(</span>0.0 b<span class="o">)</span>
+</pre></div>
+</div>
+<p>当添加tunl0设备时，自动载入需要的模块：</p>
+<div class="highlight-bash"><div class="highlight"><pre>shell&gt; lsmod |grep ipip
+ipip 7516 0
+tunnel4 2700 1 ipip
+</pre></div>
+</div>
+<p>其中，ipip依赖于tunnel4，假如现在删除tunnel4的话：</p>
+<div class="highlight-bash"><div class="highlight"><pre>shell&gt; rmmod tunnel4
+ERROR: Module tunnel4 is in use by ipip
+</pre></div>
+</div>
+<p>如果添加tunl0失败，那么可能是内核没有开启tunneling功能，默认是以模块形式，加载到内核里的：</p>
+<img alt="http://farm7.static.flickr.com/6115/6323980779_b0369d8de9.jpg" src="http://farm7.static.flickr.com/6115/6323980779_b0369d8de9.jpg"/>
+</div>
+<div class="section" id="id8">
+<h4><a class="toc-backref" href="#id28">ARP问题：</a></h4>
+<p>如果LVS和Real-server不在一个网络内，不需要处理ARP问题，如果在相同网络，那么处理方法和DR模式一样，但是如果一样，我就不知道选择tun模式有什么好理由了，DR似乎效率更高些吧。</p>
+</div>
+<div class="section" id="id9">
+<h4><a class="toc-backref" href="#id29">内核的包转发：</a></h4>
+<p>IP Tunneling模式不需要开启ip_forward功能。</p>
+</div>
+</div>
+</div>
+<div class="section" id="nat">
+<h2><a class="toc-backref" href="#id30">NAT模式：</a></h2>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id31">NAT模式的拓扑图</a></h3>
+<img alt="http://farm7.static.flickr.com/6099/6323980789_b90f2546bf_b.jpg" src="http://farm7.static.flickr.com/6099/6323980789_b90f2546bf_b.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id11">
+<h3><a class="toc-backref" href="#id32">NAT模式的工作过程:</a></h3>
+<img alt="http://farm7.static.flickr.com/6117/6324734426_fc573643bf.jpg" src="http://farm7.static.flickr.com/6117/6324734426_fc573643bf.jpg"/>
+<div class="highlight-rst"><div class="highlight"><pre>client：202.100.1.2
+VIP：202.103.106.5
+Real-server：172.16.0.2 和 172.16.0.3（提供http和ftp服务）
+</pre></div>
+</div>
+<p>1&gt; client发送request到LVS的VIP上，VIP选择一个Real-server，并记录连接信息到hash表中，然后修改client的request的目的IP地址为Real-server的地址，将请求发给Real-server;</p>
+<p>2&gt; Real-server收到request包后，发现目的IP是自己的IP，于是处理请求，然后发送reply给LVS;</p>
+<p>3&gt; LVS收到reply包后，修改reply包的的源地址为VIP，发送给client;</p>
+<p>4&gt; 从client来的属于本次连接的包，查hash表，然后发给对应的Real-server。</p>
+<p>5&gt; 当client发送完毕，此次连接结束或者连接超时，那么LVS自动从hash表中删除此条记录。</p>
+<p>下面是地址转换的过程：</p>
+<img alt="http://farm7.static.flickr.com/6239/6323980835_6e32e61090_b.jpg" src="http://farm7.static.flickr.com/6239/6323980835_6e32e61090_b.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id12">
+<h3><a class="toc-backref" href="#id33">NAT模式的几个细节问题</a></h3>
+<div class="section" id="natbugs">
+<h4><a class="toc-backref" href="#id34">NAT模式的Bugs</a></h4>
+<ul class="simple">
+<li>在Linux的2.6版本，LVS-NAT不能做防火墙，在只有一个网关的情况下，没有任何问题。</li>
+<li>防火墙不兼容：LVS的架构中，LVS的前端不能设置防火墙，修复的补丁”NFCT” patch。</li>
+<li>源路由问题</li>
+</ul>
+</div>
+<div class="section" id="icmp">
+<h4><a class="toc-backref" href="#id35">ICMP重定向问题</a></h4>
+<p>一. 对于路由器来说，只有当如下条件同时满足的时候，才进行重定向</p>
+<ul class="simple">
+<li>数据包的入接口和路由后的指定的出接口是同一个接口。</li>
+<li>数据包的源IP地址和该包应走的下一跳IP地址属于同一个网段。</li>
+<li>数据报非源路由的（这种情况应该比较少见了，源路由多见于Token Ring）。</li>
+<li>系统开启重定向功能。</li>
+</ul>
+<dl class="docutils">
+<dt><strong>例如：</strong></dt>
+<dd>两个路由器都开启了IP重定向功能。HostA 的默认网关为1.1.1.1。当HostA要和不在同一网段中的HostB通信的时候，会把数据报递交给默认网关RT1。然而RT1经过查找发现到达3.3.3.3的路径下一跳恰恰是经由自己的E0/1口的RT2接口1.1.1.2。满足上述条件，将会发生重定向。</dd>
+</dl>
+<p>二. LVS为什么会产生ICMP重定向问题：
+* 在LVS-NAT模式下，如果LVS的各个成员，client，LVS，Real-server在同一个网段(比如：192.168.1.*/24)；</p>
+<ul class="simple">
+<li>当Real-server将Reply发送回LVS时，Reply包是 RIP -&gt; CIP的，LVS看到RIP-&gt; CIP实际上根本没必要经过LVS，直接到网关就行了，因为大家在一个网段，所以产生ICMP重定向发送给Real-server；</li>
+<li>Real-server收到ICMP重定向包后，如果Real-server的ICMP重定向开启了，Real-server就会处理ICMP重定向包，直接将Reply包发给网关，这时Reply包头并没有被LVS重写，所以LVS负载出现了问题。</li>
+</ul>
+<p>注意：这种情况只会出现在所有的LVS的成员都在一个网段的情况下。</p>
+<p>重定向的处理办法（Real-server的配置）：</p>
+<p>1&gt; 关闭Real-server的重定向，忽略LVS发来的重定向包</p>
+<p>2&gt; 删除到网段的路由：</p>
+<img alt="http://farm7.static.flickr.com/6105/6324754200_9780818531_z.jpg" src="http://farm7.static.flickr.com/6105/6324754200_9780818531_z.jpg" style="width: 600px;"/>
+<p>执行：</p>
+<div class="highlight-bash"><div class="highlight"><pre>realserver:/etc/lvs#route del -net 192.168.1.0 netmask 255.255.255.0 dev eth0
+</pre></div>
+</div>
+<p>路由已经被删除了：</p>
+<img alt="http://farm7.static.flickr.com/6214/6324754218_a6258829e5_z.jpg" src="http://farm7.static.flickr.com/6214/6324754218_a6258829e5_z.jpg" style="width: 600px;"/>
+<p>3&gt; LVS-NAT模式支持四层的端口重写：
+LVS-DR，LVS-TUN不能修改client发来的请求的目的端口，但是LVS-NAT可以，参考命令：</p>
+<div class="highlight-bash"><div class="highlight"><pre>shell&gt; ipvsadm -a -t VIP:PORT -r RIP:NEWPORT -m -w 1
+</pre></div>
+</div>
+<p>LVS的三种转发模式就先说到这吧，具体的细节可以参考LVS的HOWTO文档。</p>
+</div>
+</div>
+</div>
+</div>]]></description>
+             <pubDate>Tue, 11 Sep 2012 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2012/09/11/vmware_several_modules_must_be_compiled_and_loaded_into_the_running_kernel.html</link>
+            <guid>http://jasonwu.me/2012/09/11/vmware_several_modules_must_be_compiled_and_loaded_into_the_running_kernel.html</guid>
+            <title><![CDATA[VMware-several-modules-must-be-compiled-and-loaded-into-the-running-kernel]]></title>
+            <description><![CDATA[<div class="section" id="vmware-several-modules-must-be-compiled-and-loaded-into-the-running-kernel">
+<h1>VMware-several-modules-must-be-compiled-and-loaded-into-the-running-kernel</h1>
+<p>在ubuntu 12.04上安装vmware workstation 8.02,</p>
+<p>在vmware kernel module updater这个窗口上，编译第二步Virtual Network Device 时出现错误</p>
+<p>查看Log，有如下报错：</p>
+<div class="highlight-rst"><div class="highlight"><pre>2012-06-24T14:56:24.833+08:00| vthread-3| I120: Your GCC version: 4.6
+2012-06-24T14:56:24.839+08:00| vthread-3| I120: Your GCC version: 4.6
+2012-06-24T14:56:24.855+08:00| vthread-3| I120: Header path /lib/modules/3.2.0-25-generic/build/include for kernel release 3.2.0-25-generic is valid.
+2012-06-24T14:56:24.867+08:00| vthread-3| I120: Trying to find a suitable PBM set for kernel 3.2.0-25-generic.
+</pre></div>
+</div>
+<p>解决方案：</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># cd /usr/lib/vmware/modules;</span>
+<span class="c"># wget http://pavlinux.ru/vmware/8.0.2/source.tar.lzma;</span>
+<span class="c"># tar -xf source.tar.lzma;</span>
+<span class="c"># vmware-modconfig --console --install-all</span>
+</pre></div>
+</div>
+<img alt="http://pavlinux.ru/vmware/8.0.2/make.png" src="http://pavlinux.ru/vmware/8.0.2/make.png"/>
+</div>]]></description>
+             <pubDate>Tue, 11 Sep 2012 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2012/09/08/adjust_nic_irq_for_lvs.html</link>
+            <guid>http://jasonwu.me/2012/09/08/adjust_nic_irq_for_lvs.html</guid>
+            <title><![CDATA[LVS网卡软中断配置]]></title>
+            <description><![CDATA[<div class="section" id="lvs">
+<h1>LVS网卡软中断配置</h1>
+<p>这是之前做LVS的网卡软中断配置时整理的一个文档，网上的资料不是很全，将配置方法share给大家。</p>
+<p>为什么要配置网卡软中断，主要是因为在网络非常 heavy 的情况下，对于文件服务器、高流量 Web 服务器这样的应用来说，把不同的网卡 IRQ 均衡绑定到不同的 CPU 上将会减轻某个 CPU 的负担，提高多个 CPU 整体处理中断的能力。合理的根据自己的生产环境和应用的特点来平衡 IRQ 中断有助于提高系统的整体吞吐能力和性能。
+先看下未升级之前的效果：可以看到网卡软中断被分配到了两个指定的CPU核心上:</p>
+<img alt="http://farm8.staticflickr.com/7067/6928555291_87c0dfcc68_z.jpg" src="http://farm8.staticflickr.com/7067/6928555291_87c0dfcc68_z.jpg"/>
+<p>经过升级内核调整参数后的效果：</p>
+<img alt="http://farm8.staticflickr.com/7061/6928555437_450d1a548b_z.jpg" src="http://farm8.staticflickr.com/7061/6928555437_450d1a548b_z.jpg" style="width: 600px;"/>
+<p>软中断被均匀的分配到8个核心上，下面来说下具体过程</p>
+<div class="section" id="id1">
+<h2>第一步</h2>
+<p>将内核升级到2.6.32以上，升级过程略去</p>
+<div class="highlight-bash"><div class="highlight"><pre>为什么要将2.6.18内核升级到2.6.32？这个主要是因为2.6.18还不支持RPS这个特性那什么是rps呢？具体可以参看：
+http://lwn.net/Articles/328339/
+http://lwn.net/Articles/378617/
+为什么要将2.6.18内核升级到2.6.32？
+这个主要是因为2.6.18不支持RPS这个特性
+那什么是rps呢？具体可以参看：
+http://lwn.net/Articles/328339/
+http://lwn.net/Articles/378617/
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>第二步：</h2>
+<p>如果你的服务器网卡和我一样是Broadcom的，那么你就得做这一步，不是请跳到第三步</p>
+<img alt="http://farm8.staticflickr.com/7052/6928573033_5dd56c20dc_z.jpg" src="http://farm8.staticflickr.com/7052/6928573033_5dd56c20dc_z.jpg" style="width: 600px; height: 44px;"/>
+<p>在/etc/modprobe.conf加上下面这行： options bnx2 disable_msi=1
+改完这个重新加载下网卡模块modprobe -r bnx2;modprobe bnx2或者重新启动服务器。</p>
+<div class="highlight-bash"><div class="highlight"><pre>为什么要加这个？
+这个主要是因为broadcom网卡开启msi后，会造成后面的修改smp_affinity丌生效，intel的网卡没这个问题。
+
+msi是什么？下面的链接有解析：
+http://lwn.net/Articles/44139/
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>第三步：</h2>
+<p>停用irqbalance
+/etc/init.d/irqbalance stop
+这个是一个自动调整中断的工具，有兴趣的可以看下irqbalance的官方网站：
+<a class="reference external" href="http://irqbalance.org/">http://irqbalance.org/</a></p>
+</div>
+<div class="section" id="id4">
+<h2>第四步：</h2>
+<p>设置eth0、eth1对应中断号的 <tt class="docutils literal"><span class="pre">smp_affinity</span></tt> 为 “ff”
+先看一下网卡的中断号：</p>
+<img alt="http://farm8.staticflickr.com/7046/6928573141_959e7d24ff_z.jpg" src="http://farm8.staticflickr.com/7046/6928573141_959e7d24ff_z.jpg" style="width: 600px;"/>
+<p>从图中可以看到网卡eth1的中断号为16,eth0的中断号为18
+将/proc/irq/中断号/smp_affinity修改为ff，修改完成后就可以开启lvs了，现在中断应该均分到各个核心上了。</p>
+<div class="highlight-bash"><div class="highlight"><pre>smp_affinity这个参数是怎么得来的？ 可参考下面链接：
+http://www.cs.uwaterloo.ca/~brecht/servers/apic/SMP-affinity.txt
+</pre></div>
+</div>
+</div>
+</div>]]></description>
+            <category><![CDATA[ network ]]></category>
+             <pubDate>Sat, 08 Sep 2012 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2012/09/08/python_colored_output.html</link>
+            <guid>http://jasonwu.me/2012/09/08/python_colored_output.html</guid>
+            <title><![CDATA[Python colored output]]></title>
+            <description><![CDATA[<div class="section" id="python-colored-output">
+<h1>Python colored output</h1>
+<img alt="http://farm8.staticflickr.com/7021/6509302675_ca07164663.jpg" src="http://farm8.staticflickr.com/7021/6509302675_ca07164663.jpg"/>
+<p>下面是颜色的代码</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;30mGray like Ghost</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;31mRed like Radish</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;32mGreen like Grass</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;33mYellow like Yolk</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;34mBlue like Blood</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;35mMagenta like Mimosa</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;36mCyan like Caribbean</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;37mWhite like Whipped Cream</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;38mCrimson like Chianti</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;41mHighlighted Red like Radish</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;42mHighlighted Green like Grass</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;43mHighlighted Brown like Bear</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;44mHighlighted Blue like Blood</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;45mHighlighted Magenta like Mimosa</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;46mHighlighted Cyan like Caribbean</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;47mHighlighted Gray like Ghost</span><span class="se">\033</span><span class="s">[1;m'</span>
+<span class="k">print</span> <span class="s">'</span><span class="se">\033</span><span class="s">[1;48mHighlighted Crimson like Chianti</span><span class="se">\033</span><span class="s">[1;m'</span>
+</pre></div>
+</div>
+</div>]]></description>
+            <category><![CDATA[ python ]]></category>
+             <pubDate>Sat, 08 Sep 2012 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2012/05/18/the-solutions-to-libtool-Version-mismatch-error.html</link>
+            <guid>http://jasonwu.me/2012/05/18/the-solutions-to-libtool-Version-mismatch-error.html</guid>
+            <title><![CDATA[RPM打包时出现libtool: Version mismatch error问题解决方法]]></title>
+            <description><![CDATA[<div class="section" id="rpmlibtool-version-mismatch-error">
+<h1>RPM打包时出现libtool: Version mismatch error问题解决方法</h1>
+<div class="highlight-bash"><div class="highlight"><pre>libtool: Version mismatch error.  This is libtool 2.2.6b Debian-2.2.6b-2ubuntu1,
+but the
+libtool: definition of this LT_INIT comes from an older release.
+libtool: You should recreate aclocal.m4 with macros from libtool 2.2.6b
+Debian-2.2.6b-2ubuntu1
+libtool: and run autoconf again.
+</pre></div>
+</div>
+<p>这个是执行rpmbuild中的报错信息，解决方案很简单，删除包里的aclocal.m4，然后执行 aclocal 和 autoconf</p>
+<div class="highlight-bash"><div class="highlight"><pre>rm aclocal.m4 &amp; aclocal &amp; autoconf
+</pre></div>
+</div>
+<p>最后再重新rpmbuild -bb一下就可以了</p>
+<div class="highlight-bash"><div class="highlight"><pre>rpmbuild -bb *.spec
+</pre></div>
+</div>
+</div>]]></description>
+            <category><![CDATA[ linux ]]></category>
+             <pubDate>Fri, 18 May 2012 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2011/10/29/introduce-to-vmware-p2v.html</link>
+            <guid>http://jasonwu.me/2011/10/29/introduce-to-vmware-p2v.html</guid>
+            <title><![CDATA[Vmware的P2V技术简介]]></title>
+            <description><![CDATA[<div class="section" id="vmwarep2v">
+<h1>Vmware的P2V技术简介</h1>
+<p>年前写了篇关于Vmware server 2.02的web管理界面崩溃的文章，里面埋了个坑，这篇文章是来填坑的，本文只是简要性的介绍P2V（Physical-to-Virtual）技术，具体操作步骤可以看相关的手册，步骤很简单。目前常见的虚拟机都有P2V的解决方案，我了解到XEN也有P2V技术的，并且可以做半虚拟化。不多说了，下面进入正题，Vmware的P2V技术的实现主要是靠VMware Converter着个软件，VMware Converter可以在多种硬件上运行，并支持常用的大多数Microsoft
+Windows操作系统版本和Linux。通过这一功能强大的企业级迁移工具，用户可以：</p>
+<p>(1)快速而可靠地将本地和远程物理机转换为虚拟机，而不会造成任何中断或停机。</p>
+<p>(2)通过集中式管理控制台和直观的转换向导同时完成多个转换。</p>
+<p>(3)将其他虚拟机格式(如Microsoft Virtual PC和Microsoft Virtual Server)或物理机的备份映像(如Symantec Backup Exec Live State Recovery或Ghost 9)转换为VMware虚拟机。</p>
+<p>(4)将虚拟机的VMware Consolidated Backup(VCB)映像恢复到运行的虚拟机。</p>
+<p>(5)将物理机克隆并备份为虚拟机，作为灾难恢复计划的一部分。</p>
+<p>(6)使用向导将转换步骤减到最少。</p>
+<p>VMwareConverter工作原理虚拟机示意如图所示。</p>
+<img alt="http://farm6.staticflickr.com/5251/5452914685_5e468db0be.jpg" src="http://farm6.staticflickr.com/5251/5452914685_5e468db0be.jpg" style="width: 600px;"/>
+<p>关于热克隆和冷克隆</p>
+<p>克隆服务器有两种实现方式：热克隆（当操作系统在运行时进行）或冷克隆（从WinPE启动光盘进入，在不运行操作系统的情况下开始）。选择哪种方式取决于您将要转化的服务器类型。冷克隆可以更加有效地保证克隆过程成功，因为冷克隆时操作系统是不运行的，这样保证了在转化过程中没有被打开的文件，也就没有数据修改发生。这种方式有效避免了坏数据块的产生。对于那些数据交换频繁的服务器来说这是最佳的办法（如数据库和电子邮件服务器）。
+热克隆适用于那些数据交换相对不太频繁的服务器，如web服务器、打印服务器、DNS和应用服务器等，多数文件为静态数据文件。热克隆的工作方式是：在克隆进程开始前创建一个快照，然后把快照拷贝到新创建的虚拟机中。在创建快照的时间点，那些打开的文件中的数据一致性是无法保障的，这些未确认的数据可能会导致目标虚拟机发生问题。并且所有在快照创建后并发写入被打开文件的数据也不会被拷贝。快照就是创建了一个时间点相关的区域，然后在文件系统中跟踪并记录所有数据块的变化。克隆进程最后把快照和文件合并组成整个硬盘的有效镜像。
+迁移的一些注意事项：有些服务器是不适合做热克隆的，比如数据库，我在做迁移的时候那台机器上有数据库，后来我迁移完成后，数据库的文件损坏了，我只好重新dump了一份数据再导入进去才OK，迁移后服务中涉及到IP地址的配置需要进行更改，不然有可能服务启不来（这条有点废话，嘿嘿），有OpenLdap服务的话，最好也重新导一份数据。</p>
+</div>]]></description>
+             <pubDate>Sat, 29 Oct 2011 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2011/10/29/dns-security-preventive-measures.html</link>
+            <guid>http://jasonwu.me/2011/10/29/dns-security-preventive-measures.html</guid>
+            <title><![CDATA[DNS安全和预防措施]]></title>
+            <description><![CDATA[<div class="section" id="dns">
+<h1>DNS安全和预防措施</h1>
+<p>DNS系统是所有互联网应用的基础，在网站运维中起着至关重要的作用,本文起一个抛砖引玉的作用，给大家探讨一下，域名解析的原理，域名解析系统常见的的攻击方法和预防措施。</p>
+<p>在开始之前我先让大家重温近两年两个安全业界比较大的新闻；去年五月份发生的六省大规模断网事件，这件事情起因是据说是两个网游私服因争夺用户恶斗，黑客因为在网站的web服务器上找不到破绽，而将攻击指向了私服的DNS提供商DNSpod,黑客以大流量对DNSpod的服务器进行攻击，DNSpod的服务器在大流量的攻击下不堪重负而宕机，影响超过十万个网站，暴风影音也是这十万个网站中的一员，暴风影音软件由于设计缺陷，在域名解析不可用的情况下，不停的向地方的ISP的DNS服务器发起域名解析请求，由于暴风影音的装机量巨大，这种请求衍变成了对地方ISP的DNS服务器的分布式拒绝服务器攻击（DDOS）,DNS请求的巨大流量如洪水一样将ISP的DNS服务器淹没，最后造成了全国大面积的断网，暴风影音对其软件进行了召回。</p>
+<p>今年年初的百度被黑事件，这件事情的主要是因黑客冒充百度的工作人员要求域名注册商修改登录账号，注册商在没有审核的情况下就为黑客修改了域名的登录账号，黑客通过账号修改了百度的DNS服务器，造成百度域名的解析出错。</p>
+<p>DNS系统是所有互联网应用的基础，在网站运维中起着至关重要的作用，下面来看看域名解析的原理：
+￼</p>
+<img alt="http://pic.yupoo.com/jasonwu1988/ApRyoJWg/66jcP.gif" src="http://pic.yupoo.com/jasonwu1988/ApRyoJWg/66jcP.gif" style="width: 600px;"/>
+<p>  1. 访客向本地ISP的DNS服务器发起一个域名解析请求</p>
+<p>  2. ISP的DNS服务器向授权的DNS服务器发起域名解析请求</p>
+<p>  3. 授权的DNS服务器将结果返回给ISP的DNS服务器</p>
+<p>  4. ISP的DNS将结果返回给用户</p>
+<p>  5. 用户根据返回结果中的IP地址向网站的服务器发起请求</p>
+<p>正是由于DNS管理系统对于网站非常重要，它也逐渐成为黑客的攻击目标，常见的攻击方式有三种</p>
+<p><tt class="docutils literal"><span class="pre">域名劫持</span></tt> 百度被黑就属于这种攻击方法，域名被劫持后，不仅网站内容会被改变，甚至可以导致域名所有权也旁落他人。如果是国内的CN域名被劫持，还可以通过和注册服务商或注册管理机构联系，较快地拿回控制权。如果是国际域名被劫持，恰巧又是通过国际注册商注册，那么其复杂的解决流程，再加上非本地化的服务，会使得夺回域名变得异常复杂。</p>
+<p><tt class="docutils literal"><span class="pre">域名欺骗(缓存投毒)</span></tt> 域名欺骗的方式有多种多样，但其攻击现象就是利用控制DNS缓存服务器，把原本准备访问某网站的用户在不知不觉中带到黑客指向的其他网站上，其实现方式可以通过利用网民ISP端的DNS缓存服务器的漏洞进行攻击或控制，从而改变该ISP内的用户访问域名的响应结果。或者黑客通过利用用户权威域名服务器上的漏洞，如当用户权威域名服务器同时可以被当作缓存服务器使用，黑客可以实现缓存投毒，将错误的域名纪录存入缓存中，从而使所有使用该缓存服务器的用户得到错误的DNS解析结果。域名欺骗可以用来钓鱼，盗取用户的cookie，账号密码信息。</p>
+<p><tt class="docutils literal"><span class="pre">DDoS攻击</span></tt>  针对DNS服务器的拒绝服务攻击有两种，一种攻击针对DNS服务器软件本身，通常利用BIND软件程序中的漏洞，导致DNS服务器崩溃或拒绝服务;另一种攻击的目标不是DNS服务器，而是利用DNS服务器作为中间的“攻击放大器”，去攻击其他互联网上的主机，导致被攻击主机拒绝服务。
+那么如何去预防这些攻击呢？</p>
+<p>下面是DNS管理的最佳惯例，做好下面这几项就能够很好防范于未然</p>
+<ul class="simple">
+<li>在不同的网络上运行分离的域名服务器来取得冗余性。</li>
+<li>将外部和内部域名服务器分开。</li>
+<li>可能时，限制动态DNS更新。</li>
+<li>将区域传送仅限制在授权的设备上。</li>
+<li>利用事务签名对区域传送和区域更新进行数字签名。</li>
+<li>隐藏运行在服务器上的BIND版本。</li>
+<li>删除运行在DNS服务器上的不必要服务，如FTP、telnet和HTTP。</li>
+<li>在网络外围和DNS服务器上使用防火墙服务。将访问限制在那些DNS功能需要的端口/服务上。</li>
+</ul>
+<p>结语：文章主要讲述了DNS的解析原理，常见的针对DNS的攻击手法和解决之道，本文只是抛砖引玉，希望能给各位读者对于DNS安全的防护有一定的启发，谢谢！</p>
+</div>]]></description>
+            <category><![CDATA[ security ]]></category>
+             <pubDate>Sat, 29 Oct 2011 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2011/10/29/learn-matsushita-find-job.html</link>
+            <guid>http://jasonwu.me/2011/10/29/learn-matsushita-find-job.html</guid>
+            <title><![CDATA[学松下幸之助找工作]]></title>
+            <description><![CDATA[<div class="section" id="id1">
+<h1>学松下幸之助找工作</h1>
+<p>又到了一年的开学，很多学弟妹们要大四了，马上就要面临找工作了，这里我给大家分享一个小故事，希望能给各位学弟学妹们找工作有一定的帮助。这是我几年前读到的一个故事，至今仍记忆犹新。故事是这样讲的：有一个年轻人，家庭生活极其贫困，全靠他一人养家糊口。别的那些与他年龄相仿的孩子正处于校园里过着无忧无虑的生活时，他已经必须为了生活而奔波操劳了。他必须去找工作。于是，他来到一家电器工厂。想找一份工作。他对负责人说，他只想要一份能给他们一家人带来固定收入的工作就可以了。哪怕是最低下的，他也做。负责人微微地看了看眼前的年轻人：衣着肮脏，又瘦又小。负责人觉得很不理想。碍于面子，免得伤他自尊心，便没有直接说，找了一个借口说：“厂里暂时不需要人，你过一个月再来吧。”</p>
+<p>对于一般人来说，应该都明白了负责人的言外之意，这一个月根本就是虚幻的。或许也根本就用不着等。但是，一个月后，那年轻人却真的来了！负责人无奈之下，只好推迟说，“再过些天吧。”</p>
+<p>过些天后，那年轻人真的又来了。如此反复，负责人终于亮出了底牌：“你衣着太脏了，不够资格进我们工厂。”于是，年轻人回去了。第二天，负责人见那年轻人衣冠楚楚出现在面前。“先生，这是昨天借钱买的。觉得怎么样，现在我应该可以了吧？”年轻人笑了笑。“还不行，关于电器方面的知识，你几乎一窍不通。”负责人苦笑着摇了摇头。</p>
+<p>几个月后，年轻人再一次来到这家企业，找到负责人，说，“先生，我抓紧时间学了一些电器方面的知识，您看，我哪方面还不符合贵工厂的用人标准，我一项一项再弥补。”</p>
+<p>听着年轻人那句话，负责人望了他好半天，终于说话了，“我干这一行已经好几十年了，第一次碰见你这么有耐心的人！好，年轻人，明天来上班吧！”</p>
+<p>这个年轻人，就是享誉全球的“企业经营之神”，现在日本松下电器公司的总裁——松下幸之助。当下，求职者应该从松下幸之助成功求职之中学习到一些东西。比如，理性的择业观。松下幸之助为了找工作，不求最佳甚至不嫌工作低下，只要有一份工作就行。这与一些大学生青睐大城市、外资岗位等形成鲜明对比，特别是在金融危机之下，求职者更应调低预期。又如不抛弃、不放弃的诚心和耐心。如果松下幸之助在中途哪一个环节放弃都将无法成功求职。就业压力大意味着更多的人更少的岗位，此时如果没有超强的求职诚心和耐心，职位就会与你擦肩而过。</p>
+<p>结合我找工作的经历，我想给那些还未毕业的学弟学妹们找工作一些小建议，找工作的过程也是一个学习的过程，在面试后，一定要弄清楚自己到底缺在什么地方，然后再进行学习，如果不学习，不改进，认识不到自己的缺陷，只是一味的海投简历，那么你很有可能陷入，投简历&gt;面试&gt;失败&gt;再投简历&gt;再面试&gt;再失败的一个循环，这样对于自信心的打击会非常的大，还有不要去海投简历，再投简历之前认真认真筛选，要进行一个职业规划，这个最好从大三下学期就开始规划，是找工作还是考研，以后做哪方面的工作，确定了自己的方向之后，那么就开始努力学习那方面的知识和找一些与自己工作方向相关的实习，或者自己做一些工作方面的小项目。对于考证，我认为可以考，但不要只是为了证书而考证，证书只是一张纸，并不能证明你的实际能力，在考证的学习过程中必须注重实践和实验。就写这么多了，2011届的校园招聘应该马上就开始了，2011届的学弟学妹们加油！</p>
+</div>]]></description>
+             <pubDate>Sat, 29 Oct 2011 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2011/10/31/some-thoughts-about-web-security-technology-salon.html</link>
+            <guid>http://jasonwu.me/2011/10/31/some-thoughts-about-web-security-technology-salon.html</guid>
+            <title><![CDATA["web安全技术沙龙"一些感想]]></title>
+            <description><![CDATA[<div class="section" id="web">
+<h1>“web安全技术沙龙”一些感想</h1>
+<p>昨天在中科院软件所参加了spark组织的安全技术沙龙的会议，参加这个沙龙，我的第一个收获应该是见着了spark的真人了，真人比人人网上的照片要帅多了。嘿嘿…</p>
+<p>下面来说说安全沙龙上的一些内容吧，昨天cnbird讲的安全运维的内容我是非常感兴趣的，主要讲了两个案例，一个是nfs对公网开放，一个squid的acl没配置好，这两个应该都是管理员的疏忽造成的，很容易进行修复，如何去避免这些疏忽呢，我们系统管理员，应该也可以做做相关的工作，比如拿着nmap自己扫扫，看看有没有多余的端口暴露在外网，平时多关注操作系统，服务器软件方面的一些漏洞（0day信息），去年5月份的时候80sec爆出nginx文件类型错误解析漏洞，这个漏洞大致是nginx默认情况下可能导致服务器错误的将任何类型的文件以PHP的方式进行解析，这使得攻击者可能攻陷支持php的nginx服务器。这个漏洞爆出后，有很多反应不及时的管理员的论坛被黑客拿到了webshell，据说当当网的论坛也被黑掉了。</p>
+<p>上面说的主要是运维安全，光服务器配置，防火墙配好了，这些还不够，很多的的安全问题是由应用造成的，下面再来说说昨天会上讲的一些应用安全方面的内容，主要讲的关于XSS方面的东西，XSS漏洞很常见，解决起来也非常简单，就是转义，在写网站上，我们应该遵循，用户的一切输入都不可信，都要进行转义，这个问题，其实一些成熟的web开发框架内置了很好的解决方案，比如我比较熟悉的django，它默认会对用户所有的输入内容进行转义，并且一般在使用django开发网站时，在开发过程中我们一般使用ORM来对数据库进行操作，这样可以有效避免sql注入攻击，还有对于目录遍历漏洞，django内置的静态内容视图会对../../这样输入进行转义，更进一步来说django的url配置文件，如果我们没在urlconf中进行相应的配置，那么我们也是没法进行访问。昨天在沙龙上来自新浪的cy07说的很好，根据refer来防范XSS，保证两次refer一致才允许访问，避免用户的cookie被盗。</p>
+<p>最后再说说安全制度，体系，流程的问题，大部分的公司一般都是在出了问题之后才开始重视这些问题，非常的被动，不是主动的去做安全，做安全的话，需要自上而下进行推动，因此需要相应的制度，体系，流程，一般我们做技术的对于这些东西都是比较反感，感觉被这些东西束缚住了手脚，可以这样去想一下，如果一个流程能减少安全问题，那么我们就可以少花一点时间再出事以后修修补补。好了，就写这么多吧，有点小的建议，web安全沙龙可以讲讲一些网络安全方面的东西，比如ddos防范之类的内容，希望web安全技术沙龙能越办越火。</p>
+</div>]]></description>
+            <category><![CDATA[ security ]]></category>
+             <pubDate>Mon, 31 Oct 2011 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2011/05/29/The-blog-from-wordpress-migrate-django.html</link>
+            <guid>http://jasonwu.me/2011/05/29/The-blog-from-wordpress-migrate-django.html</guid>
+            <title><![CDATA[将博客从wordpress迁移到django]]></title>
+            <description><![CDATA[<div class="section" id="wordpressdjango">
+<h1>将博客从wordpress迁移到django</h1>
+<p>最近一段时间，自己在网上发现已经有很多基于django的博客系统，因为自己对于django比较熟悉，可以修改博客的程序的代码，因此，打算将博客从wordpress迁移到django，这里我选择了一个基于GAE的django博客系统，我自己checkout代码后，部署到本地进行测试，发现这个博客系统还有很多bug，自己这段时间修复了一些重要的bug，又重新买了个vps，使用uwsgi+nginx重新弄了个博客，目前使用上还算很不错的，这个修改后的博客系统的代码我放到了自己的bitbucket上。</p>
+<p>下面来说说折腾过程中的收获吧，1，对于像vps这样的环境用sqlite很不错，sqlite简单介绍下，是一款轻型的数据库，它的设计目标是嵌入式的，它占用资源非常的低，在嵌入式设备中，可能只需要几百K的内存就够了，同时他能跟很多程序语言结合，python对sqlite的支持非常好，比起Mysql、PostgreSQL这两款开源世界著名的数据库管理系统来讲，它的处理速度比他们都快。博客对数据库的要求很简单，只要能存储我的文章就OK了，处理速度越快越好，其它的那些高级特性对于博客来说都是摆设，使用sqlite还有一个好处，方便备份，只要将sqlite的文件拷回本地就行了。</p>
+<p>2，说说版本控制，这段时间为了托管这些代码，我对svn,git,hg这三个版本控制软件进行了评估，最后我用了hg进行版本控制，说说为什么使用hg,第一，我需要离线的版本控制，就是我能在离线时也能commit改动，svn在第一轮出局，第二轮是git和hg,其实我最先开始用的git，毕竟git是linux内核开发的版本控制工具，并且github也挺好用，因此用github托管代码，感觉也蛮不错，直到我发现了bitbucket，bitbucket网站的界面可能做的没github好，但两个的功能上都差不多，但bitbucket免费用户能创建私有库，这点对我来说吸引力还是非常大的，因此我决定折腾hg，然后自己安装好Mercurial后，因为用过git，因此使用起来的也没遇到多大的问题，因此选定了hg作为版本控制工具，大家如果和我一样纠结于选版本控制工具时可以考虑下hg，googlecode也支持使用hg进行版本控制，如果你使用windows的话，hg的windows下的客户端也比git要好。</p>
+</div>]]></description>
+             <pubDate>Sun, 29 May 2011 00:00:00 +0800</pubDate>
+        </item>
+    
+        <item>
+            <link>http://jasonwu.me/2011/05/29/YAHOO-WEB-OPTIME-14-rules.html</link>
+            <guid>http://jasonwu.me/2011/05/29/YAHOO-WEB-OPTIME-14-rules.html</guid>
+            <title><![CDATA[YAHOO WEB OPTIME 14 rules]]></title>
+            <description><![CDATA[<div class="section" id="yahoo-web-optime-14-rules">
+<h1>YAHOO WEB OPTIME 14 rules</h1>
+<p>Web 应用性能优化黄金法则：先优化前端程序(front-end) 的性能，因为这是80% 或以上的最终用户响应时间的花费所在。</p>
+<div class="section" id="http">
+<h2>法则1. 减少HTTP 请求次数</h2>
+<p>80%的最终用户响应时间花在前端程序上，而其大部分时间则花在各种页面元素，如图像、样式表、脚本和Flash等，的下载上。减少页面元素将会减少HTTP请求次数。这是快速显示页面的关键所在。一种减少页面元素个数的方法是简化页面设计。但是否存在其他方式，能做到既有丰富内容，又能获得快速响应时间呢？以下是这样一些技术： Image maps
+组合多个图片到一张图片中。总文件大小变化不大，但减少了HTTP请求次数从而加快了页面显示速度。该方式只适合图片连续的情况；同时坐标的定义是烦人又容易出错的工作。 CSS Sprites 是更好的方法。它可以组合页面中的图片到单个文件中，并使用CSS的background-image和background-position属性来现实所需的部分图片。Inline images使用data: URL scheme 来在页面中内嵌图片。这将增大HTML文件的大小。组合inline images到你的（缓存）样式表是既能较少HTTP请求，又能避免加大HTML文件大小的方法。 Combined
+files通过组合多个脚本文件到单一文件来减少HTTP请求次数。样式表也可采用类似方法处理。这个方法虽然简单，但没有得到大规模的使用。10大美国网站每页平均有7个脚本文件和2个样式表。当页面之间脚本和样式表变化很大时，该方式将遇到很大的挑战，但如果做到的话，将能加快响应时间。减少HTTP请求次数是性能优化的起点。这最提高首次访问的效率起到很重要的作用。据Tenni Theurer的文章Browser Cache Usage - Exposed!描述，40-60%的日常访问是首次访问，因此为首次访问者加快页面访问速度是用户体验的关键。</p>
+</div>
+<div class="section" id="cdn">
+<h2>法则2. 使用CDN(内容分发网络)</h2>
+<p>用户离web server的远近对响应时间也有很大影响。从用户角度看，把内容部署到多个地理位置分散的服务器上将有效提高页面装载速度。但是该从哪里开始呢？
+作为实现内容地理分布的第一步，不要试图重构web应用以适应分布架构。改变架构将导致多个周期性任务，如同步session状态，在多个server之间复制数据库交易。这样缩短用户与内容距离的尝试可能被应用架构改版所延迟，或阻止。我们还记得80-90%的最终用户响应时间花在下载页面中的各种元素上，如图像文件、样式表、脚本和Flash等。与其花在重构系统这个困难的任务上，还不如先分布静态内容。这不仅能大大减少响应时间，而且由于CDN的存在，分布静态内容非常容易实现。
+CDN是地理上分布的web server的集合，用于更高效地发布内容。通常基于网络远近来选择给具体用户服务的web server。 一些大型网站拥有自己的CDN，但是使用如Akamai Technologies, Mirror,Image Internet, 或 Limelight Networks 等CDN服务提供商的服务将是划算的。在Yahoo!把静态内容分布到CDN减少了用户影响时间20%或更多。切换到CDN的代码修改工作是很容易的，但能达到提高网站的速度。</p>
+</div>
+<div class="section" id="expires-header">
+<h2>法则3. 增加Expires Header</h2>
+<p>网页内容正变得越来越丰富，这意味着更多的脚本文件、样式表、图像文件和Flash。首次访问者将不得不面临多次HTTP请求，但通过使用Expires header，您可以在客户端缓存这些元素。这在后续访问中避免了不必要的HTTP请求。Expires header最常用于图像文件，但是它也应该用于脚本文件、样式表和Flash。浏览器（和代理）使用缓存来减少HTTP请求的次数和大小，使得网页加速装载。Web
+server通过Expires header告诉客户端一个元素可以缓存的时间长度。如果服务器是Apache的话，您可以使用ExpiresDefault基于当期日期来设置过期日期，如：ExpiresDefault “access plus 10 years” 设置过期时间为从请求时间开始计算的10年。请记住，如果使用超长的过期时间，则当内容改变时，您必须修改文件名称。在Yahoo!我们经常把改名作为release的一个步骤：版本号内嵌在文件名中，如yahoo_2.0.6.js。</p>
+</div>
+<div class="section" id="id1">
+<h2>法则4. 压缩页面元素</h2>
+<p>通过压缩HTTP响应内容可减少页面响应时间。从HTTP/1.1开始，web客户端在HTTP请求中通过Accept-Encoding头来表明支持的压缩类型，如：Accept-Encoding: gzip, deflate.如果Web server检查到Accept-Encoding头，它会使用客户端支持的方法来压缩HTTP响应，会设置Content-Encoding头，如：Content-Encoding:
+gzip。Gzip是目前最流行及有效的压缩方法。其他的方式如deflate，但它效果较差，也不够流行。通过Gzip，内容一般可减少70%。如果是Apache，在1.3版本下需使用mod_gzip 模块，而在2.x版本下，则需使用mod_deflate。Web
+server根据文件类型来决定是否压缩。大部分网站对HTML文件进行压缩。但对脚本文件和样式表进行压缩也是值得的。实际上，对包括XML和JSON在内的任务文本信息进行压缩都是值得的。图像文件和PDF文件不应该被压缩，因为它们本来就是压缩格式保存的。对它们进行压缩，不但浪费CPU，而且还可能增加文件的大小。因此，对尽量多的文件类型进行压缩是一种减少页面大小和提高用户体验的简便方法。</p>
+</div>
+<div class="section" id="id2">
+<h2>法则5. 把样式表放在头上</h2>
+<p>我们发现把样式表移到HEAD部分可以提高界面加载速度，因此这使得页面元素可以顺序显示。在很多浏览器下，如IE，把样式表放在document的底部的问题在于它禁止了网页内容的顺序显示。浏览器阻止显示以免重画页面元素，那用户只能看到空白页了。Firefox不会阻止显示，但这意味着当样式表下载后，有些页面元素可能需要重画，这导致闪烁问题。HTML 规范 明确要求样式表被定义在HEAD中，因此，为避免空白屏幕或闪烁问题，最好的办法是遵循HTML规范，把样式表放在HEAD中。</p>
+</div>
+<div class="section" id="id3">
+<h2>法则6. 把脚本文件放在底部</h2>
+<p>与样式文件一样，我们需要注意脚本文件的位置。我们需尽量把它们放在页面的底部，这样一方面能顺序显示，另方面可达到最大的并行下载。浏览器会阻塞显示直到样式表下载完毕，因此我们需要把样式表放在HEAD部分。而对于脚本来说，脚本后面内容的顺序显示将被阻塞，因此把脚本尽量放在底部意味着更多内容能被快速显示。脚本引起的第二个问题是它阻塞并行下载数量。 HTTP/1. 1 规范
+建议浏览器每个主机的并行下载数不超过2个。因此如果您把图像文件分布到多台机器的话，您可以达到超过2个的并行下载。但是当脚本文件下载时，浏览器不会启动其他的并行下载，甚至其他主机的下载也不启动。在某些情况下，不是很容易就能把脚本移到底部的。如，脚本使用document.write方法来插入页面内容。同时可能还存在域的问题。不过在很多情况下，还是有一些方法的。一个备选方法是使用延迟脚本（deferred
+script）。DEFER属性表明脚本未包含document.write，指示浏览器刻继续显示。不幸的是，Firefox不支持DEFER属性。在IE中，脚本可能被延迟执行，但不一定得到需要的长时间延迟。不过从另外角度来说，如果脚本能被延迟执行，那它就可以被放在底部了。</p>
+</div>
+<div class="section" id="css">
+<h2>法则7. 避免CSS 表达式</h2>
+<p>CSS表达式是功能强大的(同时也是危险的)用于动态设置CSS属性的方式。IE从版本5开始支持CSS表达式，如</p>
+<div class="highlight-html"><div class="highlight"><pre>backgourd-color: expression((newDate()).getHours()%2?”#B8D4FF”:”#F08A00”)
+</pre></div>
+</div>
+<p>即背景色每个小时切换一次。CSS表达式的问题是其执行次数超过大部分人的期望。不仅页面显示和resize时计算表达式，而且当页面滚屏，甚至当鼠标在页面上移动时都会重新计算表达式。
+一种减少CSS表达式执行次数的方法是一次性表达式，即当第一次执行时就以明确的数值代替表达式。如果必须动态设置的话，可使用事件处理函数代替。如果您必须使用CSS表达式的话，请记住它们可能被执行上千次，从而影响页面性能。</p>
+</div>
+<div class="section" id="javascript-css">
+<h2>法则8. 把JavaScript 和CSS 放到外部文件中</h2>
+<p>上述很多性能优化法则都基于外部文件进行优化。现在，我们必须问一个问题：JavaScript和CSS应该包括在外部文件，还是在页面文件中？在现实世界中，使用外部文件会加快页面显示速度，因为外部文件会被浏览器缓存。如果内置JavaScript和CSS在页面中虽然会减少HTTP请求次数，但增大了页面的大小。另外一方面，使用外部文件，会被浏览器缓存，则页面大小会减小，同时又不增加HTTP请求次数。因此，一般来说，外部文件是更可行的方式。唯一的例外是内嵌方式对主页更有效，如Yahoo!和My
+Yahoo!都使用内嵌方式。一般来说，在一个session中，主页访问此时较少，因此内嵌方式可以取得更快的用户响应时间。</p>
+</div>
+<div class="section" id="dns">
+<h2>法则9. 减少DNS 查询次数</h2>
+<p>DNS用于映射主机名和IP地址，一般一次解析需要20～120毫秒。为达到更高的性能，DNS解析通常被多级别地缓存，如由ISP或局域网维护的cachingserver，本地机器操作系统的缓存（如windows上的DNS Client
+Service），浏览器。IE的缺省DNS缓存时间为30分钟，Firefox的缺省缓冲时间是1分钟。减少主机名可减少DNS查询的次数，但可能造成并行下载数的减少。避免DNS查询可减少响应时间，而减少并行下载数可能增加响应时间。一个可行的折中是把内容分布到至少2个，最多4个不同的主机名上。</p>
+</div>
+<div class="section" id="javascript">
+<h2>法则10. 最小化JavaScript 代码</h2>
+<p>最小化JavaScript代码指在JS代码中删除不必要的字符，从而降低下载时间。两个流行的工具是JSMin 和YUI Compressor。混淆是最小化于源码的备选方式。象最小化一样，它通过删除注释和空格来减少源码大小，同时它还可以对代码进行混淆处理。作为混淆的一部分，函数名和变量名被替换成短的字符串，这使得代码更紧凑，同时也更难读，使得难于被反向工程。Dojo Compressor
+(ShrinkSafe)是最常见的混淆工具。最小化是安全的、直白的过程，而混淆则更复杂，而且容易产生问题。从对美国10大网站的调查来看，通过最小化，文件可减少21%，而混淆则可减少25%。除了最小化外部脚本文件外，内嵌的脚本代码也应该被最小化。即使脚本根据法则4被压缩后传输，最小化脚本刻减少文件大小5%或更高。</p>
+</div>
+<div class="section" id="id4">
+<h2>法则11. 避免重定向</h2>
+<p>重定向功能是通过301和302这两个HTTP状态码完成的，如：</p>
+<blockquote>
+<div><p>HTTP/1.1 301 Moved Permanently</p>
+<p>Location: <a class="reference external" href="http://example.com/newuri">http://example.com/newuri</a></p>
+<p>Content-Type: text/html</p>
+</div></blockquote>
+<p>浏览器自动重定向请求到Location指定的URL上，重定向的主要问题是降低了用户体验。一种最耗费资源、经常发生而很容易被忽视的重定向是URL的最后缺少/，如访问http://astrology.yahoo.com/astrology 将被重定向http://astrology.yahoo.com/astrology/。在Apache下，可以通过Alias，mod_rewrite或DirectorySlash等方式来解决该问题。</p>
+</div>
+<div class="section" id="id5">
+<h2>法则12. 删除重复的脚本文件</h2>
+<p>在一个页面中包含重复的JS脚本文件会影响性能，即它会建立不必要的HTTP请求和额外的JS执行。不必要的HTTP请求发生在IE下，而Firefox不会产生多余的HTTP请求。额外的JS执行，不管在IE下，还是在Firefox下，都会发生。一个避免重复的脚本文件的方式是使用模板系统来建立脚本管理模块。除了防止重复的脚本文件外，该模块还可以实现依赖性检查和增加版本号到脚本文件名中，从而实现超长的过期时间。</p>
+</div>
+<div class="section" id="etags">
+<h2>法则13. 配置ETags</h2>
+<p>ETags是用于确定浏览器缓存中元素是否与Web server中的元素相匹配的机制，它是比last-modified date更灵活的元素验证机制。ETag是用于唯一表示元素版本的字符串，它需被包括在引号中。Web server首先在response中指定ETag：</p>
+<blockquote>
+<div><p>HTTP/1.1 200 OK</p>
+<p>&lt; 03:03:59 2006 Dec 12&gt;</p>
+<p>10c24bc-4ab-457e1c1f”</p>
+<p>Content-Length: 12195</p>
+</div></blockquote>
+<p>后来，如果浏览器需要验证某元素，它使用If-None-Match头回传ETag给Webserver，如果ETag匹配，则服务器返回304代码，从而节省了下载时间：</p>
+<blockquote>
+<div><p>GET /i/yahoo.gif HTTP/1.1</p>
+<p>Host: us.yimg.com</p>
+<p>&lt; 03:03:59 2006 Dec 12&gt;</p>
+<p>10c24bc-4ab-457e1c1f”</p>
+<p>HTTP/1.1 304 Not Modified</p>
+</div></blockquote>
+<p>ETags的问题在于它们是基于服务器唯一性的某些属性构造的，如Apache1.3和2.x，其格式是inode-size-timestamp，而在IIS5.0和6.0下，其格式是Filetimestamp:ChangeNumber。这样同一个元素在不同的web server上，其ETag是不一样的。这样在多Web
+server的环境下，浏览器先从server1请求某元素，后来向server2验证该元素，由于ETag不同，所以缓存失效，必须重新下载。因此，如果您未用到ETags系统提供的灵活的验证机制，最好删除ETag。删除ETag会减少http response及后续请求的HTTP头的大小。微软支持文章描述了如何删除ETags，而在Apache下，只要在配置文件中设置FileETag none即可。</p>
+</div>
+<div class="section" id="ajax">
+<h2>法则14. 缓存Ajax</h2>
+<p>性能优化法则同样适用于web 2.0应用。提高Ajax的性能最重要的方式是使得其response可缓存，就象“法则3增加Expires Header”讨论的那样。以下其他法则同样适用于Ajax，当然法则3是最有效的方式.</p>
+</div>
+</div>]]></description>
+             <pubDate>Sun, 29 May 2011 00:00:00 +0800</pubDate>
+        </item>
+    
+    </channel>
+</rss>

@@ -1,0 +1,543 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Jason Wu&#39;s Thoughts and Writings</title><meta name="description" content="关注DevOps、Web安全、Web开发、python、nginx">
+        <meta name="viewport" content="width=device-width">
+
+
+        <link rel="stylesheet/less" href="_static/less/bootstrap.less" type="text/css">
+        <link rel="stylesheet/less" href="_static/less/responsive.less" type="text/css">
+        <link rel="stylesheet" href="_static/css/bootstrap.css" type="text/css">
+        <link rel="stylesheet" href="_static/css/responsive.css" type="text/css">
+        <link rel="stylesheet" href="_static/style.css?ver=1.0" type="text/css">
+        <link rel="stylesheet" href="_static/main.css?ver=1.0" type="text/css">
+        <link rel="stylesheet" href="_static/modern5.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <link rel="stylesheet" href="_static/webfont.css" type="text/css"><link rel="shortcut icon" href="_static/favicon.ico" /><!-- Load modernizr and JQuery -->
+        <script src="_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="_static/plugins.js"></script>
+        <script src="_static/js/bootstrap.min.js?ver=3.4.2"></script>
+        <script src="_static/js/scripts.js?ver=3.4.2"></script>
+        <script src="_static/main.js"></script>
+        <link rel="next" title="Older" href="page1.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="http://feed.feedsky.com/JasonWu" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="_static/underscore.js"></script><script type="text/javascript" src="_static/doctools.js"></script><script type="text/javascript" src="_static/disqus.js"></script></head>
+    <body class="home blog custom-background"> 
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]--><header role="banner">
+            <div id="inner-header" class="clearfix">
+                <div class="navbar navbar-fixed-top">
+                    <div class="navbar-inner">
+                        <div class="container-fluid nav-container">
+                            <nav role="navigation">
+                            <a class="brand" id="logo" title="关注DevOps、Web安全、Web开发、python、nginx" href="#">Jason Wu&#39;s Thoughts and Writings</a>
+                            <div class="nav-collapse">
+                                <ul class="nav">
+                                    <li class="menu-item">
+                                    <a href="archive.html">Archive</a>
+                                    </li>
+                                    <li class="dropdown menu-item menu-item-type-custom menu-item-object-custom" >
+                                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Categories<b class="caret"></b></a>
+                                    <ul class="dropdown-menu"><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-1"><a href="categories/blog.html">blog</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-2"><a href="categories/linux.html">linux</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-1"><a href="categories/lua.html">lua</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-1"><a href="categories/network.html">network</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-1"><a href="categories/nginx.html">nginx</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-4"><a href="categories/python.html">python</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-2"><a href="categories/security.html">security</a></li></ul>
+                                                </li>
+                                    <li class="menu-item">
+                                    <a href="pages/about.html">About</a>
+                                    </li>
+                                </ul>
+                                    <form action="search.html" class="navbar-search pull-left">
+                                        <input type="text" placeholder="Search" class="search-query span2" name="q">
+                                    </form>
+                            </div>
+                            </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end #inner-header -->
+                </header>
+                <div class="container-fluid"><div class="clearfix row-fluid">
+                <div id="main" class="span8 clearfix" role="main"><article id="post-54" class="post clearfix" role="article">
+                    <div class="timestamp postmeta">
+            <span>六月 02, 2013</span>
+        </div>
+        <div class="section" id="luatable">
+<h1><a href="2013/06/02/search_for_an_item_in_a_lua_list.html">如何判断一个值在lua的table里</a></h1>
+<p>最近在用lua写一个nginx模块时，遇到一个需要判断一个值是否在一个table里的问题，我有一个类似如下的一个table:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">local</span> <span class="n">items</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;pear&quot;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>我怎样去判断orange是否在这个table里，在python里我可以使用如下的方法：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="s">&quot;orange&quot;</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+    <span class="c"># do something</span>
+</pre></div>
+</div>
+<p>在lua里如何实现类似的方法呢？</p>
+<p><a class="reference external" href="http://www.lua.org/pil/11.5.html">Programming in Lua</a> 中提供了一种方法：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">function</span> <span class="n">Set</span> <span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+  <span class="n">local</span> <span class="nb">set</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ipairs</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span> <span class="n">do</span> <span class="nb">set</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">true</span> <span class="n">end</span>
+  <span class="k">return</span> <span class="nb">set</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+<p>你可以使用一个类似set的结构，具体使用的方法如下：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">local</span> <span class="n">items</span> <span class="o">=</span> <span class="n">Set</span> <span class="p">{</span> <span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;pear&quot;</span><span class="p">,</span> <span class="s">&quot;banana&quot;</span> <span class="p">}</span>
+
+<span class="k">if</span> <span class="n">items</span><span class="p">[</span><span class="s">&quot;orange&quot;</span><span class="p">]</span> <span class="n">then</span>
+  <span class="o">--</span> <span class="n">do</span> <span class="n">something</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+<p>上面的这个方法和下面的这个方法等同：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">local</span> <span class="n">items</span> <span class="o">=</span> <span class="p">{</span> <span class="n">apple</span><span class="o">=</span><span class="n">true</span><span class="p">,</span> <span class="n">orange</span><span class="o">=</span><span class="n">true</span><span class="p">,</span> <span class="n">pear</span><span class="o">=</span><span class="n">true</span><span class="p">,</span> <span class="n">banana</span><span class="o">=</span><span class="n">true</span> <span class="p">}</span>
+<span class="k">if</span> <span class="n">items</span><span class="o">.</span><span class="n">apple</span> <span class="n">then</span>
+    <span class="o">--</span> <span class="n">do</span> <span class="n">something</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+<p>这个方法足够简单吧，并且效率上要比遍历这个table要高。</p>
+<p>– eof –</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by Jason Wu</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/lua.html">lua</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a class="label"; rel="tag"; href="tags/lua.html">lua</a>
+                <a class="label"; rel="tag"; href="tags/python.html">python</a>
+                <a class="label"; rel="tag"; href="tags/table.html">table</a>
+                </span>
+        </div>
+        <div class="comments">
+            <a href="http://jasonwu.me/2013/06/02/search_for_an_item_in_a_lua_list.html#disqus_thread" data-disqus-identifier="2013/06/02/search_for_an_item_in_a_lua_list">Leave a comment</a>
+        </div>
+    </div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>一月 19, 2013</span>
+        </div>
+        <div class="section" id="tinkerer">
+<h1><a href="2013/01/19/begin_tinkerer.html">博客迁移到tinkerer</a></h1>
+<p>在11年时，将我的博客从wordpress+mysql换成了django+sqlite，具体可见 <a class="reference external" href="http://jasonwu.me/2011/05/29/The-blog-from-wordpress-migrate-django.html">将博客从wordpress迁移到django</a> 这篇文章， 在折腾精神的感召下，在12年底我将博客程序又换掉了，这次换成了一个基于 <a class="reference external" href="http://sphinx.pocoo.org/">sphinx</a> 静态博客生成器 <a class="reference external" href="http://tinkerer.me/pages/documentation.html">tinkerer</a> ， <tt class="docutils literal"><span class="pre">tinkerer</span></tt> 使用 <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>  作为标记语言，可以生成文章的分类，tag，支持评论和代码高亮，文章评论使用 <tt class="docutils literal"><span class="pre">disqus</span></tt> , 高亮代码使用 <tt class="docutils literal"><span class="pre">Pygments</span></tt> 。</p>
+<p>说说为什么使用 <tt class="docutils literal"><span class="pre">tinkerer</span></tt> ，从打算把博客弄成静态站点开始我尝试了很多项目，如 <tt class="docutils literal"><span class="pre">octpress</span></tt> 、 <tt class="docutils literal"><span class="pre">jekyll</span></tt> 、 <tt class="docutils literal"><span class="pre">pelican</span></tt> ，一次偶然的机会在 <tt class="docutils literal"><span class="pre">bitbucket</span></tt> 上发现了 <tt class="docutils literal"><span class="pre">tinkerer</span></tt> ，试用后感觉比较顺手，并且可以使用sphinx的扩展，我比较熟悉 <tt class="docutils literal"><span class="pre">sphinx</span></tt> 和 <tt class="docutils literal"><span class="pre">reStructuredText</span></tt> 的使用，平时就用这两个东西写文档，因此选择了基于 <tt class="docutils literal"><span class="pre">sphinx</span></tt> 的 <tt class="docutils literal"><span class="pre">tinkerer</span></tt> 。我最开始使用的是0.4 beta版还存在一些bug，然后我自己做了一些修改pull给作者，作者很快就接受了我的pull request，并表示感谢，现在1.0版本已经发布，基本上没有比较明显的bug了，只是有一些细节可能不是那么完美，还有一个就是主题很少，目前默认的几款主题，都不是很美观，目前我在移植一款主题。</p>
+<p>tinkerer的一些使用经验:</p>
+<p>＊ 自定义博客的侧边栏</p>
+<p>这里以创建友情链接的plugin作为例子，复制boilerplate主题目录下recent.html为一个新的文件，如friendslinks.html，然后改成如下这样就可以了:</p>
+<div class="highlight-html"><div class="highlight"><pre>{#-
+    boilerplate/friendslinks.html
+    ~~~~~~~~~~~~~~~~~~~~~
+
+    Sidebar list of all tags.
+
+    :copyright: Copyright 2012 by Iñigo Serna
+    :license: FreeBSD, see LICENSE file
+-#}
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;widget&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Friends links<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.qdyongai.cn/?from=jason&quot;</span><span class="nt">&gt;</span>龙哥-网站设计<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.zipeng.info/?from=jason&quot;</span><span class="nt">&gt;</span>子鹏-kun的记事本<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://www.aaronw.me/?from=jason&quot;</span><span class="nt">&gt;</span>王炜-我的技术生活<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://cuikai-wh.com/?from=jason&quot;</span><span class="nt">&gt;</span>小轰-时光立方<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p><strong>这里要注意的是默认的modern5主题是继承于boilerplate这个主题，因此只要修改boilerplate这个主题就可以了</strong></p>
+<p>然后在conf.py中加入这个文件的配置</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Add templates to be rendered in sidebar here</span>
+<span class="n">html_sidebars</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&quot;**&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;searchbox.html&quot;</span><span class="p">,</span> <span class="s">&quot;categories.html&quot;</span><span class="p">,</span> <span class="s">&quot;recent.html&quot;</span><span class="p">,</span> <span class="s">&quot;friendslinks.html&quot;</span><span class="p">,</span> <span class="s">&quot;weibo.html&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>创建一个makefile，使用过 <tt class="docutils literal"><span class="pre">sphinx</span></tt> 的人应该都知道 <tt class="docutils literal"><span class="pre">sphinx</span></tt> 会生成一个 makefile，这样可以直接使用make html就可以生成文档了，tinker没有提供，那么我们可以自己写一个，让我么操作的更加自动化，如下是我 <tt class="docutils literal"><span class="pre">Makefile</span></tt> 示例，大家可以参照下：</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>all: build commit update
+
+clean:
+             rm -rf blog/html/
+
+build:
+             tinker -b
+
+serve:
+             <span class="nb">cd </span>blog/html/ <span class="o">&amp;&amp;</span> python -m SimpleHTTPServer
+
+commit:
+             hg commit ./ -m <span class="s1">'add new post'</span><span class="o">&amp;&amp;</span>hg push
+                     @echo <span class="s2">&quot;Done...&quot;</span>
+
+update:
+             ssh root@jasonwu.me <span class="s1">'cd /home/admin/jasonwu.me/&amp;&amp;hg pull&amp;&amp;hg update'</span>
+</pre></div>
+</div>
+<p>这个makefile主要实现了生成文档，在本地起一个http服务器来查看生成的文章效果，提交到bitbucket和更新vps上的博客内容等功能，将这些操作完全的自动化，是不是很方便，大家玩的开心。</p>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by Jason Wu</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/blog.html">blog</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a class="label"; rel="tag"; href="tags/sphinx.html">sphinx</a>
+                <a class="label"; rel="tag"; href="tags/blog.html">blog</a>
+                <a class="label"; rel="tag"; href="tags/tinkerer.html">tinkerer</a>
+                <a class="label"; rel="tag"; href="tags/staic_site.html">staic site</a>
+                </span>
+        </div>
+        <div class="comments">
+            <a href="http://jasonwu.me/2013/01/19/begin_tinkerer.html#disqus_thread" data-disqus-identifier="2013/01/19/begin_tinkerer">Leave a comment</a>
+        </div>
+    </div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>十二月 04, 2012</span>
+        </div>
+        <div class="section" id="nginx-uwsgidjango">
+<h1><a href="2012/12/04/use_nginx_uwsgi_deploy_django.html">使用NGINX+UWSGI来部署Django</a></h1>
+<p>关于UWSGI的介绍不多说了，想了解的可以自己去搜，uwsgi性能还蛮不错，我们之前使用的fastcgi方式来跑django，前端用F5做负载均衡，用户数增加后服务器的load很高，但换uwsgi服务器的load下降不少，废话不多说，进入正题。
+编译安装nginx，用的nginx-0.8.54，目前最新的stable版本</p>
+<div class="highlight-bash"><div class="highlight"><pre>wget http://nginx.org/download/nginx-0.8.54.tar.gz
+tar zxvf  nginx-0.8.54.tar.gz
+./configure --user<span class="o">=</span>nobody
+  --group<span class="o">=</span>nobody
+  --prefix<span class="o">=</span>/usr/local/nginx
+  --with-http_ssl_module
+  --http-log-path<span class="o">=</span>/var/log/nginx/access.log
+  --with-http_gzip_static_module
+make&amp;&amp;make install
+</pre></div>
+</div>
+<p>下面来安装uwsgi</p>
+<div class="highlight-bash"><div class="highlight"><pre>wget http://projects.unbit.it/downloads/uwsgi-0.9.6.5.tar.gz
+tar zvxf uwsgi-0.9.6.5.tar.gz
+<span class="nb">cd </span>uwsgi-0.9.6.5
+make -f Makefile.Py26
+cp uwsgi /usr/sbin/uwsgi    <span class="c">#将uwsgi放到PATH下</span>
+</pre></div>
+</div>
+<p>下面来说说怎么配置：
+新建一个uwsgi.xml的文件放到django的目录下</p>
+<div class="highlight-xml"><div class="highlight"><pre>#cat uwsgi.xml
+<span class="nt">&lt;uwsgi&gt;</span>
+
+<span class="nt">&lt;socket&gt;</span>0.0.0.0:8000<span class="nt">&lt;/socket&gt;</span>
+
+<span class="nt">&lt;listen&gt;</span>204800<span class="nt">&lt;/listen&gt;</span>
+
+<span class="c">&lt;!-- 开启32个线程 --&gt;</span>
+<span class="nt">&lt;processes&gt;</span>32<span class="nt">&lt;/processes&gt;</span>
+
+<span class="nt">&lt;max-requests&gt;</span>2048000<span class="nt">&lt;/max-requests&gt;</span>
+
+<span class="nt">&lt;buffer-size&gt;</span>8192<span class="nt">&lt;/buffer-size&gt;</span>
+
+<span class="c">&lt;!-- 你的配置文件 --&gt;</span>
+<span class="nt">&lt;module&gt;</span>django_wsgi<span class="nt">&lt;/module&gt;</span>
+
+<span class="nt">&lt;profiler&gt;</span>true<span class="nt">&lt;/profiler&gt;</span>
+
+<span class="nt">&lt;enable-threads&gt;</span>true<span class="nt">&lt;/enable-threads&gt;</span>
+
+<span class="c">&lt;!-- 限制内存空间256M --&gt;</span>
+<span class="nt">&lt;limit-as&gt;</span>256<span class="nt">&lt;/limit-as&gt;</span>
+
+<span class="c">&lt;!-- 使用async模式来运行，这里要注意一下，如果你的app的是no-async-friendly 那就不要用这个模式 --&gt;</span>
+<span class="nt">&lt;async&gt;</span>10<span class="nt">&lt;/async&gt;</span>
+
+<span class="nt">&lt;disable-logging/&gt;</span>
+
+<span class="nt">&lt;daemonize&gt;</span>/home/app01/uwsgi.log<span class="nt">&lt;/daemonize&gt;</span>
+
+<span class="nt">&lt;/uwsgi&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#cat django_wsgi.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">django.core.handlers.wsgi</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'DJANGO_SETTINGS_MODULE'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'your settings'</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">wsgi</span><span class="o">.</span><span class="n">WSGIHandler</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>下面是nginx的配置：</p>
+<div class="highlight-bash"><div class="highlight"><pre>server <span class="o">{</span>
+        listen   80;
+        server_name jasonwu.me;
+        access_log /var/log/jasownu.me/access_log;
+        location / <span class="o">{</span>
+            root   /home/app01/;
+            uwsgi_pass 127.0.0.1:8000;
+            include        uwsgi_params;
+      <span class="o">}</span>
+  <span class="o">}</span>
+</pre></div>
+</div>
+<p>启动服务：</p>
+<div class="highlight-bash"><div class="highlight"><pre>/usr/bin/uwsgi -x /home/app01/uwsgi.xml
+/usr/local/nginx/sbin/nginx
+</pre></div>
+</div>
+<p>这样部署完成了</p>
+<p>下面来说说遇到的一个问题，不知道大家有没有遇到，
+在我们启动uwsgi后在uwsgi的日志中会出现如下的信息:</p>
+<div class="highlight-python"><pre>– unavailable modifier requested: 1 –
+– unavailable modifier requested: 1 –</pre>
+</div>
+<p>表现的现象就是启动一段时间没法访问app，在查看uwsgi的源代码中我们找到打印这部份日志的段落，正常情况下应该返回的-1，目前还在查找这个出现这个错误的原因。</p>
+<p><strong>参考文档:</strong></p>
+<ul class="simple">
+<li>uwsgi的 <a class="reference external" href="http://projects.unbit.it/uwsgi/wiki/TitleIndex">官方wiki</a></li>
+<li><a class="reference external" href="http://www.nightmare.com/medusa/programming.html">Programming in Python with Medusa and the Async Sockets Library</a></li>
+</ul>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by Jason Wu</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/nginx.html">nginx</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a class="label"; rel="tag"; href="tags/nginx.html">nginx</a>
+                <a class="label"; rel="tag"; href="tags/uwsgi.html">uwsgi</a>
+                <a class="label"; rel="tag"; href="tags/django.html">django</a>
+                </span>
+        </div>
+        <div class="comments">
+            <a href="http://jasonwu.me/2012/12/04/use_nginx_uwsgi_deploy_django.html#disqus_thread" data-disqus-identifier="2012/12/04/use_nginx_uwsgi_deploy_django">Leave a comment</a>
+        </div>
+    </div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>十二月 04, 2012</span>
+        </div>
+        <div class="section" id="unp-i-o">
+<h1><a href="2012/12/04/the_unp_reading_notes_io_model.html">unp读书笔记（第六章I/O模型）</a></h1>
+<p>在看了unp后才发现自己之前的认识一直都是错误的，把阻塞I/O，非阻塞I/O，同步和异步混为一谈，之前一直觉得异步就是非阻塞io，同步就是阻塞io，主要搞清楚了，五种I/O模型的实现，以及epoll并不是aio，这两个并不是一个东西。</p>
+<p>实际上unix有五种I/O模型：</p>
+<ul class="simple">
+<li>阻塞I/O</li>
+<li>非阻塞I/O</li>
+<li>I/O复用(select和poll)</li>
+<li>信号驱动I/O（SIGIO)</li>
+<li>异步I/O</li>
+</ul>
+<p>一个输入操作一般有两个不同的阶段：
+1. 等待数据准备好
+2. 从内核到进程拷贝数据
+对于一个套接口上的输入操作，第一步一般是等待数据到达网络，当分组到达时，它被拷贝到内核中的某个缓冲区，第二步是将数据从内核缓冲区拷贝到应用缓冲区。</p>
+<div class="section" id="i-o">
+<h2>1.阻塞I/O模型</h2>
+<p>最流行的I/O模型是阻塞I/O模型，缺省时，所有套接口都是阻塞的。</p>
+<img alt="http://farm6.staticflickr.com/5195/7407797190_a48b6dcf80_z.jpg" src="http://farm6.staticflickr.com/5195/7407797190_a48b6dcf80_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id1">
+<h2>2. 非阻塞I/O模型</h2>
+<p>前三次调用recvfrom时仍无数据返回，因此内核立即返回一个EWOULDBLOCK错误。第四次调用recvfrom时，数据已经准备好，被拷贝到应用缓冲区，recvfrom返回成功指示，接着就是我们处理数据。当一个应用进程像这样对一个非阻塞描述字循环调用recvfrom时，我们称此过程为轮询(polling)。应用进程连续不断地查询内核，看看某操作是否准备好，这对cpu时间是极大的浪费，但这种模型只是偶尔才遇到，一般是在只专门提供某种功能的系统中才有。</p>
+<img alt="http://farm6.staticflickr.com/5332/7407811366_60f22d6337_z.jpg" src="http://farm6.staticflickr.com/5332/7407811366_60f22d6337_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id2">
+<h2>3. I/O复用模型</h2>
+<p>有了I/O复用，我们就可以调用select或poll，在这两个系统调用中的某一个上阻塞，而不是阻塞于真正的I/O系统调用。如图6.3，我们阻塞于select调用，等待数据报套接口可读。当select返回套接口可读条件时，我们调用recvfrom将数据报拷贝到应用缓冲区中。使用select的好处在于我们可以等待多个描述字准备好。</p>
+<img alt="http://farm6.staticflickr.com/5447/7407852344_49d1a95c98_z.jpg" src="http://farm6.staticflickr.com/5447/7407852344_49d1a95c98_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id3">
+<h2>4. 信号驱动I/O模型</h2>
+<p>我们也可以用信号，让内核在描述字准备好时，用信号SIGIO通知我们，我们将此方法称为信号驱动I/O，如图6.4
+首先我们允许套接口进行信号驱动IO，并通过系统调用sigaction安装一个信号处理程序。此系统调用立即返回，进程继续工作，它是非阻塞的。当数据报准备好被读时，就为该进程生成一个SIGIO信号。我们随即可以在信号处理程序中调用recvfrom来读数据报，并通知主循环数据已准备好被处理。也可以通知主循环，让它来读数据报。无论我们如何处理SIGIO信号，这种模型的好处是当等待数据报到达时，可以不阻塞。主循环可以继续执行，只是等待信号处理程序的通知,或者数据已准备好处理，或者数据报已准备好被读。</p>
+<img alt="http://farm8.staticflickr.com/7258/7407859790_b922c7fedf_z.jpg" src="http://farm8.staticflickr.com/7258/7407859790_b922c7fedf_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id4">
+<h2>5. 异步I/O模型</h2>
+<p>异步IO是POSIX实时扩展，我们让内核启动操作，并在整个操作完成后(包括将数据从内核拷贝到我们自己的缓冲区)通知我们。这种模型没有广泛使用。这种模型与前一节介绍的信号驱动模型的主要区别在于：信号驱动I/O是由内核通知我们何时可以启动一个I/O操作，而异步I/O模型是由内核通知我们I/O操作何时完成。我们调用函数aio_read(POSIX异步I/O函数以aio_或者lio_开头)，给内核传递描述字，缓冲区指针，缓冲区大小(与read相同的三个参数)，文件偏移(与lseek类似)，并告诉内核当前整个操作完成是如何通知我们。此系统调用立即返回，我们的进程不阻塞于等待I/O操作的完成。在此例子中，我们假设要求内核在操作完成时生成一个信号，此信号直到数据已拷贝到应用缓冲区才生成，这一点是与信号驱动I/O模型不同的。</p>
+<img alt="http://farm8.staticflickr.com/7106/7407898142_64f4033a11_z.jpg" src="http://farm8.staticflickr.com/7106/7407898142_64f4033a11_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="id5">
+<h2>6. 五种不同I/O模型的比较</h2>
+<img alt="http://farm8.staticflickr.com/7121/7407921310_b58dfa8cb5_z.jpg" src="http://farm8.staticflickr.com/7121/7407921310_b58dfa8cb5_z.jpg" style="width: 600px;"/>
+</div>
+<div class="section" id="i-oi-o">
+<h2>7. 同步I/O与异步I/O</h2>
+<p>POSIX定义这两个术语如下：
+同步I/O操作引起请求进程阻塞，直到I/O操作完成。
+异步I/O操作不引起请求进程阻塞。
+根据上述定义，我们的前四个模型–阻塞I/O模型，非阻塞I/O模型，I/O复用模型和信号驱动I/O模型都是同步I/O模型，因为真正的I/O操作(recvfrom)阻塞进程，只有异步I/O模型与异步I/O的定义相匹配。</p>
+</div>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by Jason Wu</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/linux.html">linux</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a class="label"; rel="tag"; href="tags/i_o.html">I/O</a>
+                <a class="label"; rel="tag"; href="tags/network.html">network</a>
+                <a class="label"; rel="tag"; href="tags/unp.html">unp</a>
+                </span>
+        </div>
+        <div class="comments">
+            <a href="http://jasonwu.me/2012/12/04/the_unp_reading_notes_io_model.html#disqus_thread" data-disqus-identifier="2012/12/04/the_unp_reading_notes_io_model">Leave a comment</a>
+        </div>
+    </div><div class="separator post_separator"></div><div class="timestamp postmeta">
+            <span>十二月 03, 2012</span>
+        </div>
+        <div class="section" id="python-args-kwargs">
+<h1><a href="2012/12/03/args_and_kwargs_in_python.html">Python : 什么是*args和**kwargs？</a></h1>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">'args = '</span><span class="p">,</span> <span class="n">args</span>
+    <span class="k">print</span> <span class="s">'kwargs = '</span><span class="p">,</span> <span class="n">kwargs</span>
+    <span class="k">print</span> <span class="s">'---------------------------------------'</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">foo</span><span class="p">(</span><span class="s">'a'</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">'2'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>输出结果如下：</p>
+<div class="highlight-python"><pre>| args = (1, 2, 3, 4)
+| kwargs = {}
+| ---------------------------------------
+| args = ()
+| kwargs = {'a': 1, 'c': 3, 'b': 2}
+| ---------------------------------------
+| args = (1, 2, 3, 4)
+| kwargs = {'a': 1, 'c': 3, 'b': 2}
+| ---------------------------------------
+| args = ('a', 1, None)
+| kwargs = {'a': 1, 'c': 3, 'b': '2'}
+| ---------------------------------------</pre>
+</div>
+<p>可以看到，这两个是python中的可变参数。 <tt class="docutils literal"><span class="pre">*args</span></tt> 表示任何多个无名参数，它是一个tuple； <tt class="docutils literal"><span class="pre">**kwargs</span></tt> 表示关键字参数，它是一个dict。并且同时使用 <tt class="docutils literal"><span class="pre">*args</span></tt> 和 <tt class="docutils literal"><span class="pre">**kwargs</span></tt> 时，必须 <tt class="docutils literal"><span class="pre">*args</span></tt> 参数列要在 <tt class="docutils literal"><span class="pre">**kwargs</span></tt> 前，像foo(a=1, b=‘2’, c=3, a’, 1, None, )这样调用的话，会提示语法错误“SyntaxError: non-keyword arg after keyword arg”。</p>
+<p>呵呵，知道 <tt class="docutils literal"><span class="pre">*args</span></tt> 和 <tt class="docutils literal"><span class="pre">**kwargs</span></tt> 是什么了吧。还有一个很漂亮的用法，就是创建字典：</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">kw_dict</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">kwargs</span>
+    <span class="k">print</span> <span class="n">kw_dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="s">'a'</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s">'b'</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s">'c'</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>其实python中就带有dict类，使用dict(a=1,b=2,c=3)即可创建一个字典了。</p>
+<p>另:连接两个字典的方法:</p>
+<p>第一种:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="p">{</span><span class="s">'a'</span><span class="p">:</span><span class="s">'a'</span><span class="p">,</span><span class="s">'b'</span><span class="p">:</span><span class="s">'b'</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="s">'c'</span><span class="p">,</span><span class="o">**</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span>
+<span class="go">{'a': 'a', 'c': 'c', 'b': 'b'}</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>第二种:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="p">{</span><span class="s">'a'</span><span class="p">:</span><span class="s">'a'</span><span class="p">,</span><span class="s">'b'</span><span class="p">:</span><span class="s">'b'</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">=</span><span class="p">{</span><span class="s">'c'</span><span class="p">:</span><span class="s">'c'</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span>
+<span class="go">{'a': 'a', 'c': 'c', 'b': 'b'}</span>
+</pre></div>
+</div>
+</div>
+        <div class="postmeta">
+        <div class="author">
+            <span>Posted by Jason Wu</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="categories/python.html">python</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a class="label"; rel="tag"; href="tags/dict.html">dict</a>
+                <a class="label"; rel="tag"; href="tags/python.html">python</a>
+                </span>
+        </div>
+        <div class="comments">
+            <a href="http://jasonwu.me/2012/12/03/args_and_kwargs_in_python.html#disqus_thread" data-disqus-identifier="2012/12/03/args_and_kwargs_in_python">Leave a comment</a>
+        </div>
+    </div><div class="archive_link">
+        <a href="archive.html"> &mdash;  Blog Archive  &mdash; </a>
+    </div><ul class="related clearfix">
+            <li class="left"></li>
+            <li class="right"><a href="page1.html" title="Older">Next →</a></li>
+        </ul></article></div><div id="sidebar1" class="fluid-sidebar sidebar span4" role="complementary"><section><div class="widget" id="social">
+    <h1>QR CODE</h1>
+    <img alt="jasonwu" src="http://jasonwu.me/_static/img/qr.png">
+</div></section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="categories/blog.html">blog</a> (1)</li><li><a href="categories/linux.html">linux</a> (2)</li><li><a href="categories/lua.html">lua</a> (1)</li><li><a href="categories/network.html">network</a> (1)</li><li><a href="categories/nginx.html">nginx</a> (1)</li><li><a href="categories/python.html">python</a> (4)</li><li><a href="categories/security.html">security</a> (2)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="2013/06/02/search_for_an_item_in_a_lua_list.html">如何判断一个值在lua的table里</a>
+        </li><li>
+            <a href="2013/01/19/begin_tinkerer.html">博客迁移到tinkerer</a>
+        </li><li>
+            <a href="2012/12/04/use_nginx_uwsgi_deploy_django.html">使用NGINX+UWSGI来部署Django</a>
+        </li><li>
+            <a href="2012/12/04/the_unp_reading_notes_io_model.html">unp读书笔记（第六章I/O模型）</a>
+        </li><li>
+            <a href="2012/12/03/args_and_kwargs_in_python.html">Python : 什么是*args和**kwargs？</a>
+        </li><li>
+            <a href="2012/10/13/centos_install_cx_oracle.html">CENT OS安装cx_Oracle遇到的问题及解决方法</a>
+        </li><li>
+            <a href="2012/10/13/introduce_to_python_lambda.html">python的lambda函数介绍</a>
+        </li><li>
+            <a href="2012/09/11/detailed_lvs_difference_between_the_three_models.html">LVS的三种模式区别详解</a>
+        </li><li>
+            <a href="2012/09/11/vmware_several_modules_must_be_compiled_and_loaded_into_the_running_kernel.html">VMware-several-modules-must-be-compiled-and-loaded-into-the-running-kernel</a>
+        </li><li>
+            <a href="2012/09/08/adjust_nic_irq_for_lvs.html">LVS网卡软中断配置</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Friends links</h1>
+    <ul>
+        <li><a href="http://www.qdyongai.cn/?from=jason">龙哥-网站设计</a></li>
+        <li><a href="http://www.zipeng.info/?from=jason">子鹏-kun的记事本</a></li>
+        <li><a href="http://www.aaronw.me/?from=jason">王炜-我的技术生活</a></li>
+        <li><a href="http://cuikai-wh.com/?from=jason">小轰-时光立方</a></li>
+    </ul>
+</div></section><section><div class="widget">
+    <h1>MicroBlog</h1>
+    <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=6&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1793345607&verifier=c7f905c0&dpc=1"></iframe>
+</div></section></div></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container"><footer class="wrapper">&copy; Copyright 2013, Jason Wu. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><script type="text/javascript">    var disqus_shortname = "jasonwu";    disqus_count();</script><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

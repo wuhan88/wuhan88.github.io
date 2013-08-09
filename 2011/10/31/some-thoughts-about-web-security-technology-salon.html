@@ -1,0 +1,155 @@
+<!DOCTYPE html><!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>“web安全技术沙龙”一些感想 &mdash; Jason Wu&#39;s Thoughts and Writings</title><meta name="description" content="关注DevOps、Web安全、Web开发、python、nginx">
+        <meta name="viewport" content="width=device-width">
+
+
+        <link rel="stylesheet/less" href="../../../_static/less/bootstrap.less" type="text/css">
+        <link rel="stylesheet/less" href="../../../_static/less/responsive.less" type="text/css">
+        <link rel="stylesheet" href="../../../_static/css/bootstrap.css" type="text/css">
+        <link rel="stylesheet" href="../../../_static/css/responsive.css" type="text/css">
+        <link rel="stylesheet" href="../../../_static/style.css?ver=1.0" type="text/css">
+        <link rel="stylesheet" href="../../../_static/main.css?ver=1.0" type="text/css">
+        <link rel="stylesheet" href="../../../_static/modern5.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+        <link rel="stylesheet" href="../../../_static/webfont.css" type="text/css"><link rel="shortcut icon" href="../../../_static/favicon.ico" /><!-- Load modernizr and JQuery -->
+        <script src="../../../_static/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../../_static/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+        <script src="../../../_static/plugins.js"></script>
+        <script src="../../../_static/js/bootstrap.min.js?ver=3.4.2"></script>
+        <script src="../../../_static/js/scripts.js?ver=3.4.2"></script>
+        <script src="../../../_static/main.js"></script>
+        <link rel="next" title="将博客从wordpress迁移到django" href="../../05/29/The-blog-from-wordpress-migrate-django.html" /><link rel="prev" title="学松下幸之助找工作" href="../29/learn-matsushita-find-job.html" /><link rel="alternate" type="application/rss+xml" title="RSS" href="http://feed.feedsky.com/JasonWu" /><script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script><script type="text/javascript" src="../../../_static/underscore.js"></script><script type="text/javascript" src="../../../_static/doctools.js"></script><script type="text/javascript" src="../../../_static/disqus.js"></script></head>
+    <body class="home blog custom-background"> 
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]--><header role="banner">
+            <div id="inner-header" class="clearfix">
+                <div class="navbar navbar-fixed-top">
+                    <div class="navbar-inner">
+                        <div class="container-fluid nav-container">
+                            <nav role="navigation">
+                            <a class="brand" id="logo" title="关注DevOps、Web安全、Web开发、python、nginx" href="../../../index.html">Jason Wu&#39;s Thoughts and Writings</a>
+                            <div class="nav-collapse">
+                                <ul class="nav">
+                                    <li class="menu-item">
+                                    <a href="../../../archive.html">Archive</a>
+                                    </li>
+                                    <li class="dropdown menu-item menu-item-type-custom menu-item-object-custom" >
+                                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Categories<b class="caret"></b></a>
+                                    <ul class="dropdown-menu"><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-1"><a href="../../../categories/blog.html">blog</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-2"><a href="../../../categories/linux.html">linux</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-1"><a href="../../../categories/lua.html">lua</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-1"><a href="../../../categories/network.html">network</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-1"><a href="../../../categories/nginx.html">nginx</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-4"><a href="../../../categories/python.html">python</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" id="menu-item-2"><a href="../../../categories/security.html">security</a></li></ul>
+                                                </li>
+                                    <li class="menu-item">
+                                    <a href="../../../pages/about.html">About</a>
+                                    </li>
+                                </ul>
+                                    <form action="../../../search.html" class="navbar-search pull-left">
+                                        <input type="text" placeholder="Search" class="search-query span2" name="q">
+                                    </form>
+                            </div>
+                            </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end #inner-header -->
+                </header>
+                <div class="container-fluid"><div class="clearfix row-fluid">
+                <div id="main" class="span8 clearfix" role="main"><article id="post-54" class="post clearfix" role="article">
+                    <div class="timestamp postmeta">
+            <span>十月 31, 2011</span>
+        </div>
+    <div class="section" id="web">
+<h1>&#8220;web安全技术沙龙&#8221;一些感想</h1>
+<p>昨天在中科院软件所参加了spark组织的安全技术沙龙的会议，参加这个沙龙，我的第一个收获应该是见着了spark的真人了，真人比人人网上的照片要帅多了。嘿嘿…</p>
+<p>下面来说说安全沙龙上的一些内容吧，昨天cnbird讲的安全运维的内容我是非常感兴趣的，主要讲了两个案例，一个是nfs对公网开放，一个squid的acl没配置好，这两个应该都是管理员的疏忽造成的，很容易进行修复，如何去避免这些疏忽呢，我们系统管理员，应该也可以做做相关的工作，比如拿着nmap自己扫扫，看看有没有多余的端口暴露在外网，平时多关注操作系统，服务器软件方面的一些漏洞（0day信息），去年5月份的时候80sec爆出nginx文件类型错误解析漏洞，这个漏洞大致是nginx默认情况下可能导致服务器错误的将任何类型的文件以PHP的方式进行解析，这使得攻击者可能攻陷支持php的nginx服务器。这个漏洞爆出后，有很多反应不及时的管理员的论坛被黑客拿到了webshell，据说当当网的论坛也被黑掉了。</p>
+<p>上面说的主要是运维安全，光服务器配置，防火墙配好了，这些还不够，很多的的安全问题是由应用造成的，下面再来说说昨天会上讲的一些应用安全方面的内容，主要讲的关于XSS方面的东西，XSS漏洞很常见，解决起来也非常简单，就是转义，在写网站上，我们应该遵循，用户的一切输入都不可信，都要进行转义，这个问题，其实一些成熟的web开发框架内置了很好的解决方案，比如我比较熟悉的django，它默认会对用户所有的输入内容进行转义，并且一般在使用django开发网站时，在开发过程中我们一般使用ORM来对数据库进行操作，这样可以有效避免sql注入攻击，还有对于目录遍历漏洞，django内置的静态内容视图会对../../这样输入进行转义，更进一步来说django的url配置文件，如果我们没在urlconf中进行相应的配置，那么我们也是没法进行访问。昨天在沙龙上来自新浪的cy07说的很好，根据refer来防范XSS，保证两次refer一致才允许访问，避免用户的cookie被盗。</p>
+<p>最后再说说安全制度，体系，流程的问题，大部分的公司一般都是在出了问题之后才开始重视这些问题，非常的被动，不是主动的去做安全，做安全的话，需要自上而下进行推动，因此需要相应的制度，体系，流程，一般我们做技术的对于这些东西都是比较反感，感觉被这些东西束缚住了手脚，可以这样去想一下，如果一个流程能减少安全问题，那么我们就可以少花一点时间再出事以后修修补补。好了，就写这么多吧，有点小的建议，web安全沙龙可以讲讲一些网络安全方面的东西，比如ddos防范之类的内容，希望web安全技术沙龙能越办越火。</p>
+</div>
+
+    <div class="postmeta">
+        <div class="author">
+            <span>Posted by Jason Wu</span>
+        </div>
+        <div class="categories">
+            <span>
+                Filed under:
+                <a href="../../../categories/security.html">security</a></span>
+        </div>
+        <div class="tags">
+            <span>
+                Tags:
+                <a class="label"; rel="tag"; href="../../../tags/security.html">security</a>
+                <a class="label"; rel="tag"; href="../../../tags/sql_injection.html">sql-injection</a>
+                <a class="label"; rel="tag"; href="../../../tags/xss.html">xss</a>
+                </span>
+        </div>
+        
+    </div>
+    <div id="disqus_thread"></div><script type="text/javascript">    var disqus_shortname = "jasonwu";    var disqus_identifier = "2011/10/31/some-thoughts-about-web-security-technology-salon";    disqus_thread();</script><noscript>Please enable JavaScript to view the    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><ul class="related clearfix">
+            <li class="left"><a href="../29/learn-matsushita-find-job.html" title="学松下幸之助找工作">← Previous</a></li>
+            <li class="right"><a href="../../05/29/The-blog-from-wordpress-migrate-django.html" title="将博客从wordpress迁移到django">Next →</a></li>
+        </ul></article></div><div id="sidebar1" class="fluid-sidebar sidebar span4" role="complementary"><section><div class="widget" id="social">
+    <h1>QR CODE</h1>
+    <img alt="jasonwu" src="http://jasonwu.me/_static/img/qr.png">
+</div></section><section><div class="widget">
+    <h1>Categories</h1>
+    <ul><li><a href="../../../categories/blog.html">blog</a> (1)</li><li><a href="../../../categories/linux.html">linux</a> (2)</li><li><a href="../../../categories/lua.html">lua</a> (1)</li><li><a href="../../../categories/network.html">network</a> (1)</li><li><a href="../../../categories/nginx.html">nginx</a> (1)</li><li><a href="../../../categories/python.html">python</a> (4)</li><li><a href="../../../categories/security.html">security</a> (2)</li></ul>
+</div></section><section><div class="widget">
+    <h1>Recent Posts</h1>
+    <ul><li>
+            <a href="../../../2013/06/02/search_for_an_item_in_a_lua_list.html">如何判断一个值在lua的table里</a>
+        </li><li>
+            <a href="../../../2013/01/19/begin_tinkerer.html">博客迁移到tinkerer</a>
+        </li><li>
+            <a href="../../../2012/12/04/use_nginx_uwsgi_deploy_django.html">使用NGINX+UWSGI来部署Django</a>
+        </li><li>
+            <a href="../../../2012/12/04/the_unp_reading_notes_io_model.html">unp读书笔记（第六章I/O模型）</a>
+        </li><li>
+            <a href="../../../2012/12/03/args_and_kwargs_in_python.html">Python : 什么是*args和**kwargs？</a>
+        </li><li>
+            <a href="../../../2012/10/13/centos_install_cx_oracle.html">CENT OS安装cx_Oracle遇到的问题及解决方法</a>
+        </li><li>
+            <a href="../../../2012/10/13/introduce_to_python_lambda.html">python的lambda函数介绍</a>
+        </li><li>
+            <a href="../../../2012/09/11/detailed_lvs_difference_between_the_three_models.html">LVS的三种模式区别详解</a>
+        </li><li>
+            <a href="../../../2012/09/11/vmware_several_modules_must_be_compiled_and_loaded_into_the_running_kernel.html">VMware-several-modules-must-be-compiled-and-loaded-into-the-running-kernel</a>
+        </li><li>
+            <a href="../../../2012/09/08/adjust_nic_irq_for_lvs.html">LVS网卡软中断配置</a>
+        </li></ul>
+</div>
+</section><section><div class="widget">
+    <h1>Friends links</h1>
+    <ul>
+        <li><a href="http://www.qdyongai.cn/?from=jason">龙哥-网站设计</a></li>
+        <li><a href="http://www.zipeng.info/?from=jason">子鹏-kun的记事本</a></li>
+        <li><a href="http://www.aaronw.me/?from=jason">王炜-我的技术生活</a></li>
+        <li><a href="http://cuikai-wh.com/?from=jason">小轰-时光立方</a></li>
+    </ul>
+</div></section><section><div class="widget">
+    <h1>MicroBlog</h1>
+    <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=6&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1793345607&verifier=c7f905c0&dpc=1"></iframe>
+</div></section></div></div> <!-- #main --></div> <!-- #main-container -->
+
+        <div class="footer-container"><footer class="wrapper">&copy; Copyright 2013, Jason Wu. Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.</footer></div> <!-- footer-container -->
+
+      </div> <!--! end of #container --><!--[if lt IE 7 ]>
+          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+        <![endif]-->
+    </body>
+</html>

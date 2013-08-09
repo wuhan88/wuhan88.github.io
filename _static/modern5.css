@@ -1,0 +1,48 @@
+/* Typography */.highlight { font-size: .8em; }
+footer { font-size: 0.8em; }
+
+/* Layout */
+header { padding: 10px 0; }
+nav ul { padding: 5px; }
+div.section + div.postmeta { padding-top: 10px; }
+div.post_separator { margin: 10px 0; }
+
+div.archive_link { padding-top: 10px; text-align: center; }
+
+footer { padding: 5px 20px; }
+footer { margin-bottom: 20px; }
+
+/* Palette */nav li a, nav li a:visited, footer { color: #93a4ad; text-decoration: none; }
+nav li a:hover { color: #f8f8f8; text-decoration: none; }
+
+a.footnote-reference { vertical-align: super; }
+div.section h1 a { color: #0c0501; text-decoration: none; }
+.docutils.literal { background: none repeat scroll 0 0 #F8F8F8; border: 1px solid #DDDDDD; border-radius: 3px 3px 3px 3px; display: inline; padding: 0 0.2em; }
+
+div.postmeta { color: #93a4ad; }
+div.post_separator { border-bottom: 1px dotted #93a4ad; }
+
+/* Archive page */
+div.archive h1 { border-bottom: 1px dotted #93a4ad; margin-bottom: 20px; }
+
+span.title_tag, span.title_category { font-style: italic; }
+
+div.year h1 { border: none; font-size: 1.6em; margin-bottom: 0; margin-top: 20px; }
+
+div.year ul { display: inline; list-style-type: none; margin: 0; }
+
+div.year div.postmeta { margin: 10px 0 10px 0; }
+
+div.year div.timestamp { color: #0c0501; font-size: 1.4em; font-style: normal; font-weight: none; line-height: 1.5; margin-top: 0; }
+
+div.year h2 { margin-bottom: 0; margin-top: 0; }
+
+div.year_separator { width: 100%; border-top: 1px dotted #93a4ad; }
+
+@media only screen and (min-width: 480px) {
+    div.year h1 { float: left; margin-right: -100%; }
+
+    div.year div.postmeta { margin: 0 0 40px 40%; }
+    div.year div.timestamp { float: left; margin-left: 20%; }
+    div.year h2 { margin-left: 40%; }
+}
